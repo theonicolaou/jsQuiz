@@ -36,7 +36,9 @@ var wrapper = document.getElementById("wrapper");
 var quizIntro = document.getElementById("quizIntro");
 var quizQuestion = document.getElementById("quizQuestion");
 var quizChoices = document.getElementById("quizChoices");
+var nextButton = document.getElementById("nextButton");
 
+var currentQuestion = 0;
 
 var quiz = {
 	allQuestions: [
@@ -54,22 +56,52 @@ var quiz = {
 			question: "question 3",
 			choices: ["choice 3.1", "choice 3.2", "choice 3.3"],
 			correctAnswer: "correct answer 3"
-		}
+		},
+		{
+			question: "question 4",
+			choices: ["choice 4.1", "choice 4.2", "choice 4.3"],
+			correctAnswer: "correct answer 4"
+		},
+		{
+			question: "question 5",
+			choices: ["choice 5.1", "choice 5.2", "choice 5.3"],
+			correctAnswer: "correct answer 5"
+		},
 	],
-	// allQuestions: ["question 1", "question 2", "question 3"],
+
+	// nextQuestion: function() {
+	// 	for (var i = 0; i < quiz.allQuestions.length; i++) {
+	// 		console.log(quiz.allQuestions[i].question);
+	// 		// quizIntro.innerHTML = "";
+	// 		quizQuestion.innerHTML = quiz.allQuestions[i].question;
+	// 		quizChoices.innerHTML = "your choices are " + quiz.allQuestions[i].choices;
+	// 		// + " "	+ " the correct answer is " + quiz.allQuestions[i].correctAnswer";
+	// 	}
+	// },
 
 	nextQuestion: function() {
-		for (var i = 0; i < quiz.allQuestions.length; i++) {
-			//console.log(quiz.allQuestions);
-			quizIntro.innerHTML = "";
-			quizQuestion.innerHTML = quiz.allQuestions[i].question;
-			quizChoices.innerHTML = "your choices are " + quiz.allQuestions[i].choices;
-			// + " "	+ " the correct answer is " + quiz.allQuestions[i].correctAnswer";
+		if (currentQuestion < quiz.allQuestions.length) {
+			quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
+			console.log(quiz.allQuestions[currentQuestion].question);
+			//console.log("array item " + currentQuestion);
+			quizChoices.innerHTML = "your choices are " + quiz.allQuestions[currentQuestion].choices;
+			currentQuestion++;
+		} else if (currentQuestion === quiz.allQuestions.length) {
+			console.log("no more questions left");
+			quizQuestion.innerHTML = "";
+			quizChoices.innerHTML = "";
+			// nextButton.style.visibility= 'hidden';
 		}
 	},
 }
-
 quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.length + " questions in the quiz";
+
+
+
+
+
+
+
 
 
 
