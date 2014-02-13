@@ -1,3 +1,5 @@
+'use strict';
+
 //cross-browser event handlers, the "Zakas Way"
 var EventUtil = {
 
@@ -27,6 +29,26 @@ var EventUtil = {
 			element["on" + type] = null;
 		}
 	}
+}
 
 
+var quiz = {
+	allQuestions: [
+		{
+			question: "this is question 1",
+			choices: ["choice 1.1", "choice 1.2", "choice 1.3"],
+			correctAnswer: "correct answer 1"
+		},
+		{
+			question: "this is question 2",
+			choices: ["choice 2.1", "choice 2.2", "choice 2.3"],
+			correctAnswer: "correct answer 2"
+		}
+	],
+}
+
+for (var i = 0; i < quiz.allQuestions.length; i++) {
+	console.log(quiz.allQuestions[i].question + ":" + " "
+		+ "your choices are " + quiz.allQuestions[i].choices + " "
+		+ "the correct answer is " + quiz.allQuestions[i].correctAnswer);
 }
