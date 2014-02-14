@@ -75,6 +75,9 @@ var quiz = {
 		if (currentQuestion < quiz.allQuestions.length) {
 			//display the current question
 			quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
+			
+			//remove current answer choices
+			quizChoices.innerHTML = "";
 
 			//display answer choices for current question
 			this.showChoices();
@@ -89,10 +92,12 @@ var quiz = {
 	},
 
 	showChoices: function() {
-		if (currentChoices < quiz.allQuestions.length) {
-			quizChoices.innerHTML = "<li>" + "<input type='radio' name=''>" + quiz.allQuestions[currentChoices].choices + "</li>";
-			console.log("your choices are " + quiz.allQuestions[currentChoices].choices);
-			currentChoices++;
+		if (currentQuestion < quiz.allQuestions.length) {
+			console.log("your choices are " + quiz.allQuestions[currentQuestion].choices);
+
+			for (currentChoices = 0; currentChoices < quiz.allQuestions[currentQuestion].choices.length; currentChoices++) {
+				quizChoices.innerHTML += "<li>" + "<input type='radio' name=''>" + quiz.allQuestions[currentQuestion].choices[currentChoices] + "</li>";
+			}
 		}
 	},
 
