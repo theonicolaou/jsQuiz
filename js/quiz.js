@@ -39,6 +39,7 @@ var quizChoices = document.getElementById("quizChoices");
 var nextButton = document.getElementById("nextButton");
 
 var currentQuestion = 0;
+var currentChoices = 0;
 
 var quiz = {
 	allQuestions: [
@@ -76,37 +77,33 @@ var quiz = {
 			quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
 
 			//display answer choices for current question
-			quizChoices.innerHTML = "your choices are " + quiz.allQuestions[currentQuestion].choices;
+			this.showChoices();
 
 			//iterate to the next question in allQuestions array
 			currentQuestion++;
 
 			console.log("currentQuestion is " + currentQuestion + " and quiz.length is " + quiz.allQuestions.length);
 
-			if (currentQuestion === quiz.allQuestions.length) {
-				console.log("currentQuestion is " + currentQuestion + " and quiz.allQuestions.length is " + quiz.allQuestions.length + " so the button should not display as there are no more questions");
-				nextButton.style.visibility = 'hidden';
-			}
+			this.hideNextButton();
 		}
 	},
+
+	showChoices: function() {
+		if (currentChoices < quiz.allQuestions.length) {
+			quizChoices.innerHTML = "<li>" + "<input type='radio' name=''>" + quiz.allQuestions[currentChoices].choices + "</li>";
+			console.log("your choices are " + quiz.allQuestions[currentChoices].choices);
+			currentChoices++;
+		}
+	},
+
+	hideNextButton: function() {
+		if (currentQuestion === quiz.allQuestions.length) {
+			console.log("currentQuestion is " + currentQuestion + " and quiz.allQuestions.length is " + quiz.allQuestions.length + " so the button should not display as there are no more questions");
+			nextButton.style.visibility = 'hidden';
+		}
+	}
 }
 quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.length + " questions in the quiz";
-
-
-
-
-
-
-// PROBABLY NOT NEEDED
-// nextQuestion: function() {
-// 	for (var i = 0; i < quiz.allQuestions.length; i++) {
-// 		console.log(quiz.allQuestions[i].question);
-// 		// quizIntro.innerHTML = "";
-// 		quizQuestion.innerHTML = quiz.allQuestions[i].question;
-// 		quizChoices.innerHTML = "your choices are " + quiz.allQuestions[i].choices;
-// 		// + " "	+ " the correct answer is " + quiz.allQuestions[i].correctAnswer";
-// 	}
-// },
 
 
 
