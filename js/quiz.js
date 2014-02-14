@@ -69,28 +69,23 @@ var quiz = {
 		},
 	],
 
-	// nextQuestion: function() {
-	// 	for (var i = 0; i < quiz.allQuestions.length; i++) {
-	// 		console.log(quiz.allQuestions[i].question);
-	// 		// quizIntro.innerHTML = "";
-	// 		quizQuestion.innerHTML = quiz.allQuestions[i].question;
-	// 		quizChoices.innerHTML = "your choices are " + quiz.allQuestions[i].choices;
-	// 		// + " "	+ " the correct answer is " + quiz.allQuestions[i].correctAnswer";
-	// 	}
-	// },
-
-	nextQuestion: function() {
+	showNextQuestion: function() {
+		//if the current question is less than the length value of the allQuestions array
 		if (currentQuestion < quiz.allQuestions.length) {
+			//display the current question
 			quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
-			console.log(quiz.allQuestions[currentQuestion].question);
-			//console.log("array item " + currentQuestion);
+
+			//display answer choices for current question
 			quizChoices.innerHTML = "your choices are " + quiz.allQuestions[currentQuestion].choices;
+			//iterate to the next question in allQuestions array
 			currentQuestion++;
-		} else if (currentQuestion === quiz.allQuestions.length) {
-			console.log("no more questions left");
-			quizQuestion.innerHTML = "";
+			console.log("currentQuestion is " + currentQuestion);
+			console.log("quiz.length is " + quiz.allQuestions.length);
+		} else if (currentQuestion == 4) {
+			console.log("quiz.allQuestions.length is " + quiz.allQuestions.length + " so no more questions left");
+			quizQuestion.innerHTML = "no more";
 			quizChoices.innerHTML = "";
-			// nextButton.style.visibility= 'hidden';
+			//nextButton.style.visibility = 'hidden';
 		}
 	},
 }
@@ -101,12 +96,20 @@ quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.leng
 
 
 
+// PROBABLY NOT NEEDED
+// nextQuestion: function() {
+// 	for (var i = 0; i < quiz.allQuestions.length; i++) {
+// 		console.log(quiz.allQuestions[i].question);
+// 		// quizIntro.innerHTML = "";
+// 		quizQuestion.innerHTML = quiz.allQuestions[i].question;
+// 		quizChoices.innerHTML = "your choices are " + quiz.allQuestions[i].choices;
+// 		// + " "	+ " the correct answer is " + quiz.allQuestions[i].correctAnswer";
+// 	}
+// },
 
 
 
-
-
-//keep this for later - capturing values of radio buttons
+// KEEP THIS FOR LATER - capturing values of radio buttons
 // window.onload = function() {
 //   var theform = document.getElementById("myForm");
 //   var radioArray = [];
