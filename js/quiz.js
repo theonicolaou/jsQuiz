@@ -35,6 +35,7 @@ var EventUtil = {
 var wrapper = document.getElementById("wrapper");
 var quizIntro = document.getElementById("quizIntro");
 var quizQuestion = document.getElementById("quizQuestion");
+var myForm = document.getElementById("myForm");
 var quizChoices = document.getElementById("quizChoices");
 var quizScore = document.getElementById("quizScore");
 var nextButton = document.getElementById("nextButton");
@@ -90,7 +91,7 @@ var quiz = {
 
 			//display answer choices for question
 			this.showChoices();
-
+			this.checkAnswer();
 			//iterate to the next question in allQuestions array
 			currentQuestion++;
 
@@ -101,9 +102,11 @@ var quiz = {
 	},
 
 	showChoices: function() {
+		//iterate through array, and if current question is within array length...
 		if (currentQuestion < quiz.allQuestions.length) {
 			console.log("your choices are " + quiz.allQuestions[currentQuestion].choices);
 
+			//...iterate through the choices for current question and display as list in HTML
 			for (currentChoices = 0; currentChoices < quiz.allQuestions[currentQuestion].choices.length; currentChoices++) {
 				quizChoices.innerHTML += "<li>" + "<input type='radio' name='choice'>" + quiz.allQuestions[currentQuestion].choices[currentChoices] + "</li>";
 			}
@@ -112,21 +115,27 @@ var quiz = {
 
 	checkAnswer: function() {
 		//TODO: event handler to check value of selected radio button and if it matches correct answer in array, increment points score
+	
+		EventUtil.addHandler(myForm, "change", function(){
+			var selectedRadio = document.querySelector('input[name="choice"]:checked').value;
+			console.log("you selected", selectedRadio);
+		});
 	},
 
-	calculateTotalScore: function() {
-		//TODO: calculate total score accumulated
-	},
+	// calculateTotalScore: function() {
+	// 	//TODO: calculate total score accumulated
+	// },
 
 	showTotalScore: function() {
-		//TODO: calculate total score
+
+		//this.calculateTotalScore();
 
 		//Hide all text on page
 		quizIntro.innerHTML = "";
 		quizQuestion.innerHTML = "";
 		quizChoices.innerHTML = "";
 
-		//Remove scores button
+		//Remove Scores button
 		document.body.removeChild(scoresButton);
 
 		//Display total score
