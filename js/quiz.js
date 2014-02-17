@@ -94,8 +94,8 @@ var quiz = {
 			//display answer choices for question
 			this.showChoices();
 
-			//detech for radio button being selected
-			// this.checkAnswer();
+			//detect for radio button being selected
+			this.checkAnswer();
 			
 			//iterate to the next question in allQuestions array
 			currentQuestion++;
@@ -117,24 +117,17 @@ var quiz = {
 			for (currentChoices = 0; currentChoices < quiz.allQuestions[currentQuestion].choices.length; currentChoices++) {
 				quizChoices.innerHTML += "<li>" + "<input type=\"radio\" name=\"choice\" value=\"\">" + quiz.allQuestions[currentQuestion].choices[currentChoices] + "</li>";
 			}
-
-		//detech for radio button being selected
-			this.checkAnswer();
 		}
 	},
 
 	checkAnswer: function() {
 		var radioButtonArray = myForm.elements.choice;
 
-		console.log(radioButtonArray);
-		// console.log("radioButtonArray.length is " + radioButtonArray.length);
-		var i = 0;
-		if(i < radioButtonArray.length) {
+		for(var i = 0; i < radioButtonArray.length; i++) {
 			for (currentChoices = 0; currentChoices < quiz.allQuestions[currentQuestion].choices.length; currentChoices++) {
 				radioButtonArray[i].value = quiz.allQuestions[currentQuestion].choices[currentChoices];
+				selectedChoice = radioButtonArray[i].value;
 			}
-			selectedChoice = radioButtonArray[i].value;
-			i++;
 		}
 
 		//Event handler to check if a radio button has been selected
@@ -142,10 +135,12 @@ var quiz = {
 			console.log("you selected " + selectedChoice);
 
 			//check selected value against correct answer for current question
-			if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
-				console.log("well done, points will be incremented");
-			} else {
-				console.log("you are wrong, points will not change");
+			if (currentQuestion < quiz.allQuestions.length) {
+				if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
+					console.log("well done, points will be incremented");
+				} else {
+					console.log("you are wrong, points will not change");
+				}
 			}
 		});
 
