@@ -93,14 +93,16 @@ var quiz = {
 
 			//display answer choices for question
 			this.showChoices();
-			this.checkAnswer();
+
+			//detech for radio button being selected
+			// this.checkAnswer();
 			
 			//iterate to the next question in allQuestions array
 			currentQuestion++;
 
 			console.log("currentQuestion is " + currentQuestion + " and quiz.length is " + quiz.allQuestions.length);
 			
-			//check if current question is the last question and if it is, hide the Next button and show the Scores button
+			//checks if current question is the last question and if it is, hide the Next button and show the Scores button
 			this.finishQuiz();
 		}
 	},
@@ -109,24 +111,56 @@ var quiz = {
 		//iterate through array, and if current question is within array length...
 		if (currentQuestion < quiz.allQuestions.length) {
 			console.log("your choices are " + quiz.allQuestions[currentQuestion].choices);
+			console.log("note: correct answer is " + quiz.allQuestions[currentQuestion].correctAnswer);
 
 			//...iterate through the choices for current question and display as list in HTML
 			for (currentChoices = 0; currentChoices < quiz.allQuestions[currentQuestion].choices.length; currentChoices++) {
-				quizChoices.innerHTML += "<li>" + "<input type=\"radio\" name=\"choice\">" + quiz.allQuestions[currentQuestion].choices[currentChoices] + "</li>";
+				quizChoices.innerHTML += "<li>" + "<input type=\"radio\" name=\"choice\" value=\"\">" + quiz.allQuestions[currentQuestion].choices[currentChoices] + "</li>";
 			}
+
+		//detech for radio button being selected
+			this.checkAnswer();
 		}
 	},
 
 	checkAnswer: function() {
-		if (currentQuestion < quiz.allQuestions.length) {
-			console.log("correct answer is " + quiz.allQuestions[currentQuestion].correctAnswer);
-			// if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
-			// 	console.log("your answer matches the correct answer, your points will go up");
-			// } else {
-			// 	console.log("your answer is not correct, your points will not go up");
-			// }
+		var radioButtonArray = myForm.elements.choice;
+
+		console.log(radioButtonArray);
+		// console.log("radioButtonArray.length is " + radioButtonArray.length);
+		var i = 0;
+		if(i < radioButtonArray.length) {
+			for (currentChoices = 0; currentChoices < quiz.allQuestions[currentQuestion].choices.length; currentChoices++) {
+				radioButtonArray[i].value = quiz.allQuestions[currentQuestion].choices[currentChoices];
+			}
+			selectedChoice = radioButtonArray[i].value;
+			i++;
 		}
+
+		//Event handler to check if a radio button has been selected
+		EventUtil.addHandler(myForm, "change", function(){
+			console.log("you selected " + selectedChoice);
+
+			//check selected value against correct answer for current question
+			if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
+				console.log("well done, points will be incremented");
+			} else {
+				console.log("you are wrong, points will not change");
+			}
+		});
+
 	},
+
+
+
+
+
+
+
+
+
+
+
 
 	finishQuiz: function() {
 		//if quiz has reached final question...
@@ -153,12 +187,6 @@ var quiz = {
 		quizScore.innerHTML = "Your score is: .....";
 	},
 }
-
-//Event handler to check if a radio button has been selected
-EventUtil.addHandler(myForm, "change", function(){
-	selectedChoice = document.querySelector('input[name=\"choice\"]:checked').value;
-	console.log("you selected " + selectedChoice);
-});
 
 quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.length + " questions in the quiz";
 
