@@ -41,6 +41,8 @@ var quizScore = document.getElementById("quizScore");
 var nextButton = document.getElementById("nextButton");
 var scoresButton = document.getElementById("scoresButton");
 
+var selectedChoice;
+var selectedChoicesArray = [];
 var currentQuestion = 0;
 var currentChoices = 0;
 var currentScore;
@@ -53,27 +55,27 @@ var quiz = {
 		{
 			question: "question 1",
 			choices: ["choice 1.1", "choice 1.2", "choice 1.3"],
-			correctAnswer: "correct answer 1"
+			correctAnswer: "choice 1.1"
 		},
 		{
 			question: "question 2",
 			choices: ["choice 2.1", "choice 2.2", "choice 2.3"],
-			correctAnswer: "correct answer 2"
+			correctAnswer: "choice 2.2"
 		},
 		{
 			question: "question 3",
 			choices: ["choice 3.1", "choice 3.2", "choice 3.3"],
-			correctAnswer: "correct answer 3"
+			correctAnswer: "choice 3.1"
 		},
 		{
 			question: "question 4",
 			choices: ["choice 4.1", "choice 4.2", "choice 4.3"],
-			correctAnswer: "correct answer 4"
+			correctAnswer: "choice 4.3"
 		},
 		{
 			question: "question 5",
 			choices: ["choice 5.1", "choice 5.2", "choice 5.3"],
-			correctAnswer: "correct answer 5"
+			correctAnswer: "choice 5.2"
 		},
 	],
 
@@ -92,10 +94,12 @@ var quiz = {
 			//display answer choices for question
 			this.showChoices();
 			this.checkAnswer();
+			
 			//iterate to the next question in allQuestions array
 			currentQuestion++;
 
 			console.log("currentQuestion is " + currentQuestion + " and quiz.length is " + quiz.allQuestions.length);
+			
 			//check if current question is the last question and if it is, hide the Next button and show the Scores button
 			this.finishQuiz();
 		}
@@ -108,27 +112,34 @@ var quiz = {
 
 			//...iterate through the choices for current question and display as list in HTML
 			for (currentChoices = 0; currentChoices < quiz.allQuestions[currentQuestion].choices.length; currentChoices++) {
-				quizChoices.innerHTML += "<li>" + "<input type='radio' name='choice'>" + quiz.allQuestions[currentQuestion].choices[currentChoices] + "</li>";
+				quizChoices.innerHTML += "<li>" + "<input type=\"radio\" name=\"choice\">" + quiz.allQuestions[currentQuestion].choices[currentChoices] + "</li>";
 			}
 		}
 	},
 
 	checkAnswer: function() {
-		//TODO: event handler to check value of selected radio button and if it matches correct answer in array, increment points score
-	
-		EventUtil.addHandler(myForm, "change", function(){
-			var selectedRadio = document.querySelector('input[name="choice"]:checked').value;
-			console.log("you selected", selectedRadio);
-		});
+		if (currentQuestion < quiz.allQuestions.length) {
+			console.log("correct answer is " + quiz.allQuestions[currentQuestion].correctAnswer);
+			// if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
+			// 	console.log("your answer matches the correct answer, your points will go up");
+			// } else {
+			// 	console.log("your answer is not correct, your points will not go up");
+			// }
+		}
 	},
 
-	// calculateTotalScore: function() {
-	// 	//TODO: calculate total score accumulated
-	// },
+	finishQuiz: function() {
+		//if quiz has reached final question...
+		if (currentQuestion === quiz.allQuestions.length) {
+			//...display Scores button
+			scoresButton.style.visibility = 'visible';
+			console.log("currentQuestion is " + currentQuestion + " and quiz.allQuestions.length is " + quiz.allQuestions.length + " so the button should not display as there are no more questions");
+			//and remove Next button
+			document.body.removeChild(nextButton);
+		}
+	},
 
 	showTotalScore: function() {
-
-		//this.calculateTotalScore();
 
 		//Hide all text on page
 		quizIntro.innerHTML = "";
@@ -141,28 +152,13 @@ var quiz = {
 		//Display total score
 		quizScore.innerHTML = "Your score is: .....";
 	},
-
-	showScoresButton: function() {
-		//if quiz has reached final question, if true then display Scores button
-		if (currentQuestion === quiz.allQuestions.length) {
-			scoresButton.style.visibility = 'visible';
-		}
-	},
-
-	hideNextButton: function() {
-		//if quiz has reached final question, if true then remove Next button
-		if (currentQuestion === quiz.allQuestions.length) {
-			console.log("currentQuestion is " + currentQuestion + " and quiz.allQuestions.length is " + quiz.allQuestions.length + " so the button should not display as there are no more questions");
-			document.body.removeChild(nextButton);
-		}
-	},
-
-	//finishQuiz() hides the Next button and displays the Scores button which shows total score on click
-	finishQuiz: function() {
-		this.hideNextButton();
-		this.showScoresButton();
-	},
 }
+
+//Event handler to check if a radio button has been selected
+EventUtil.addHandler(myForm, "change", function(){
+	selectedChoice = document.querySelector('input[name=\"choice\"]:checked').value;
+	console.log("you selected " + selectedChoice);
+});
 
 quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.length + " questions in the quiz";
 
@@ -174,9 +170,9 @@ quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.leng
 //   var radioArray = [];
 //   console.log("-------------");
 //   theform.onchange = function() {
-//     var selectedRadio = document.querySelector('input[name="color"]:checked').value;
-//     console.log("you selected", selectedRadio);
-//     radioArray.push(selectedRadio);
+//     var selectedChoice = document.querySelector('input[name="color"]:checked').value;
+//     console.log("you selected", selectedChoice);
+//     radioArray.push(selectedChoice);
 //     console.log("radioArray is now " + radioArray);
 //   };
 // };
