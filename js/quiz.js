@@ -45,8 +45,8 @@ var selectedChoice;
 var selectedChoicesArray = [];
 var currentQuestion = 0;
 var currentChoices = 0;
-var currentScore;
-var totalScore;
+// var currentScore;
+// var totalScore;
 
 scoresButton.style.visibility = 'hidden';
 
@@ -128,36 +128,9 @@ var quiz = {
 				radioButtonArray[i].value = quiz.allQuestions[currentQuestion].choices[currentChoices];
 				currentChoices++;
 				selectedChoice = radioButtonArray[i].value;
-				console.log(selectedChoice);
 			}
 		}
-
-		//Event handler to check if a radio button has been selected
-		EventUtil.addHandler(myForm, "change", function(){
-			console.log("you selected " + selectedChoice);
-
-			//check selected value against correct answer for current question
-			if (currentQuestion < quiz.allQuestions.length) {
-				if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
-					console.log("well done, points will be incremented");
-				} else {
-					console.log("you are wrong, points will not change");
-				}
-			}
-		});
-
 	},
-
-
-
-
-
-
-
-
-
-
-
 
 	finishQuiz: function() {
 		//if quiz has reached final question...
@@ -184,6 +157,21 @@ var quiz = {
 		quizScore.innerHTML = "Your score is: .....";
 	},
 }
+
+//Event handler to check if a radio button has been selected
+EventUtil.addHandler(myForm, "change", function(){
+	selectedChoicesArray.push(selectedChoice);
+	console.log("your answer is " + selectedChoice + " and has been saved in selectedChoicesArray: " + selectedChoicesArray);
+
+	//check selected value against correct answer for current question
+	// if (currentQuestion < quiz.allQuestions.length) {
+	// 	if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
+	// 		console.log("well done, points will be incremented");
+	// 	} else {
+	// 		console.log("you are wrong, points will not change");
+	// 	}
+	// }
+});
 
 quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.length + " questions in the quiz";
 
