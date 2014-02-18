@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>jsQuiz</title>
-	</head>
-	<body id="wrapper">
-		<header>
-			<h1>It's Quiz Time!</h1>
-		</header>
-		<div id="quizIntro"></div>
-		<div id="quizQuestion"></div>
-		<form id="myForm">
-			<ul id="quizChoices"></ul>
-		</form>
-		<div id="quizScore"></div>
-		<input type="button" id="nextButton" value="Start quiz" onclick="quiz.showNextQuestion();">
-		<input type="button" id="scoresButton" value="Finish" onclick="quiz.showTotalScore();">
+<head>
+	<title>jsQuiz</title>
+</head>
+<body id="wrapper">
+	<header>
+		<h1>It's Quiz Time!</h1>
+	</header>
+	<div id="quizIntro"></div>
+	<div id="quizQuestion"></div>
+	<form id="myForm">
+		<ul id="quizChoices"></ul>
+	</form>
+	<div id="quizScore"></div>
+	<input type="button" id="nextButton" value="Start quiz">
+	<input type="button" id="ga" value="Get Answer">
 
-		<script type="text/javascript" src="js/quiz.js"></script>
-	</body>
+	<input type="button" id="scoresButton" value="Finish" onclick="quiz.showTotalScore();">
+	<script type="text/javascript" src="js/quiz.js"></script>
+</body>
 </html>
