@@ -45,8 +45,6 @@ var selectedChoice;
 var selectedChoicesArray = [];
 var currentQuestion = 0;
 var currentChoices = 0;
-// var currentScore;
-// var totalScore;
 
 scoresButton.style.visibility = 'hidden';
 
@@ -162,15 +160,6 @@ var quiz = {
 EventUtil.addHandler(myForm, "change", function(){
 	selectedChoicesArray.push(selectedChoice);
 	console.log("your answer is " + selectedChoice + " and has been saved in selectedChoicesArray: " + selectedChoicesArray);
-
-	//check selected value against correct answer for current question
-	// if (currentQuestion < quiz.allQuestions.length) {
-	// 	if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
-	// 		console.log("well done, points will be incremented");
-	// 	} else {
-	// 		console.log("you are wrong, points will not change");
-	// 	}
-	// }
 });
 
 quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.length + " questions in the quiz";
@@ -189,3 +178,13 @@ quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.leng
 //     console.log("radioArray is now " + radioArray);
 //   };
 // };
+
+// KEEP THIS FOR LATER - scoring
+	//check selected value against correct answer for current question
+	// if (currentQuestion < quiz.allQuestions.length) {
+	// 	if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
+	// 		console.log("well done, points will be incremented");
+	// 	} else {
+	// 		console.log("you are wrong, points will not change");
+	// 	}
+	// }
