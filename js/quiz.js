@@ -122,11 +122,13 @@ var quiz = {
 
 	checkAnswer: function() {
 		var radioButtonArray = myForm.elements.choice;
-
+		currentChoices = 0;
 		for(var i = 0; i < radioButtonArray.length; i++) {
-			for (currentChoices = 0; currentChoices < quiz.allQuestions[currentQuestion].choices.length; currentChoices++) {
+			if (currentChoices < quiz.allQuestions[currentQuestion].choices.length) {
 				radioButtonArray[i].value = quiz.allQuestions[currentQuestion].choices[currentChoices];
+				currentChoices++;
 				selectedChoice = radioButtonArray[i].value;
+				console.log(selectedChoice);
 			}
 		}
 
