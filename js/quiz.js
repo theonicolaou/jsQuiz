@@ -42,11 +42,8 @@ var quizScore = document.getElementById("quizScore");
 // var scoresButton = document.getElementById("scoresButton");
 
 var selectedChoice;
-// var selectedChoicesArray = [];
+var selectedChoicesArray = [];
 var currentQuestion = 0;
-// var currentChoices = 0;
-
-// scoresButton.style.visibility = 'hidden';
 
 var quiz = {
 	allQuestions: [
@@ -133,6 +130,7 @@ var quiz = {
 		//display the current question
 		quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
 
+		quiz.getAnswer();
 		//remove previous answer choices
 		quizChoices.innerHTML = "";
 
@@ -147,7 +145,7 @@ var quiz = {
 	showChoices: function() {
 		//iterate through array, and if current question is within array length...
 		if (currentQuestion < quiz.allQuestions.length) {
-			console.log("your choices are " + quiz.allQuestions[currentQuestion].choices);
+			// console.log("your choices are " + quiz.allQuestions[currentQuestion].choices);
 			console.log("note: correct answer is " + quiz.allQuestions[currentQuestion].correctAnswer);
 
 			//...iterate through the choices for current question and display as list in HTML
@@ -165,7 +163,9 @@ var quiz = {
 
 			if (radioButtonArray[i].checked) {
 				selectedChoice = radioButtonArray[i].value;
+				selectedChoicesArray.push(selectedChoice);
 				console.log("you have selected", selectedChoice);
+				console.log("selectedChoicesArray is now " + selectedChoicesArray)
 			}
 		}
 
@@ -194,7 +194,7 @@ var quiz = {
 	},
 
 	showTotalScore: function() {
-
+		quiz.getAnswer();
 		//Hide all text on page
 		quizIntro.innerHTML = "";
 		quizQuestion.innerHTML = "";
@@ -213,53 +213,3 @@ quiz.startQuiz();
 // EventUtil.addHandler(document.getElementById('ga'), 'click', function () {
 // 	quiz.getAnswer();
 // });
-
-
-
-
-
-
-
-
-
-// for(var i = 0; i < radioButtonArray.length; i++) {
-// 	if (currentChoices < quiz.allQuestions[currentQuestion].choices.length) {
-// 		// radioButtonArray[i].value = quiz.allQuestions[currentQuestion].choices[currentChoices];
-// 		// selectedChoice = radioButtonArray[i].value;
-// 		if (radioButtonArray[i].checked) {
-// 			selectedChoice = radioButtonArray[i].value;
-// 			console.log("your answer is " + selectedChoice);
-// 		}
-// 		currentChoices++;
-// 	}
-// }
-
-//Event handler to check if a radio button has been selected
-// EventUtil.addHandler(myForm, "change", function(){
-// 	console.log("your answer is " + selectedChoice);
-// 	// selectedChoicesArray.push(selectedChoice);
-// 	// console.log("your answer is " + selectedChoice + " and has been saved in selectedChoicesArray: " + selectedChoicesArray);
-// });
-
-// KEEP THIS FOR LATER - capturing values of radio buttons
-// window.onload = function() {
-//   var theform = document.getElementById("myForm");
-//   var radioArray = [];
-//   console.log("-------------");
-//   theform.onchange = function() {
-//     var selectedChoice = document.querySelector('input[name="color"]:checked').value;
-//     console.log("you selected", selectedChoice);
-//     radioArray.push(selectedChoice);
-//     console.log("radioArray is now " + radioArray);
-//   };
-// };
-
-// KEEP THIS FOR LATER - scoring
-	//check selected value against correct answer for current question
-	// if (currentQuestion < quiz.allQuestions.length) {
-	// 	if (selectedChoice === quiz.allQuestions[currentQuestion].correctAnswer) {
-	// 		console.log("well done, points will be incremented");
-	// 	} else {
-	// 		console.log("you are wrong, points will not change");
-	// 	}
-	// }
