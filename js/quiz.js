@@ -131,8 +131,6 @@ var quiz = {
 		//store selected answers in array
 		quiz.storeAnswer();
 
-		// quiz.checkAnswer();
-
 		//remove previous answer choices
 		quizChoices.innerHTML = "";
 
@@ -164,40 +162,37 @@ var quiz = {
 		for (i = 0; i < quiz.allQuestions[currentQuestion].choices.length; i++) {
 			radioButtonArray[i] = document.getElementById('rb' + i);
 			if (radioButtonArray[i].checked) {
-				selectedChoice = radioButtonArray[i];
+				selectedChoice = radioButtonArray[i].value;
 				selectedChoicesArray.push(selectedChoice);
 				// select = radioButtonArray[i];
 				console.log('you have selected: - ', selectedChoice);
-				// console.log("you have selected", selectedChoice);
-				// console.log("selectedChoicesArray is now " + selectedChoicesArray);
-
-				// quiz.checkAnswer();
+				// console.log("you have selected", selected);
+				console.log("selectedChoicesArray is now " + selectedChoicesArray);
 			}
-			// else {
-			// 	console.log('not correct answer selected');
-			// }
 		}
-		
-		if (selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer) {
+		// quiz.checkAnswer();
+		if (selectedChoice === quiz.allQuestions[currentQuestion - 1].correctAnswer) {
 			correctAnswer++;
-			console.log("current score is ", correctAnswer);
+			console.log("current score has increased! It is now ", correctAnswer);
 		} else {
 			console.log("current score is ", correctAnswer)
 		}
-
-		console.log(quiz.allQuestions.length)
-		// for (i = 0; i < quiz.allQuestions.length; i++) {
-		// 	if (selectedChoice.value === quiz.allQuestions[i].correctAnswer) {
-		// 		console.log("hello answer for q5!");
-		// 		correctAnswer++;
-		// 		console.log("current score is ", correctAnswer)
-		// 	}
-		// }
 	},
 
+	// checkAnswer: function() {
+	// 	console.log("QUIZ.CHECKANSWER!!!!!!!!")
+	// 	if (selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer) {
+	// 		correctAnswer++;
+	// 		console.log("current score has increased! It is now ", correctAnswer);
+	// 	} else {
+	// 		console.log("current score is ", correctAnswer)
+	// 	}
+	// },
+
 	finishQuiz: function() {
-	if (currentQuestion === (quiz.allQuestions.length - 1)) {
+	if (currentQuestion === quiz.allQuestions.length - 1) {
 		console.log("currentQuestion array item is " + currentQuestion + " and quiz.allQuestions array length is " + quiz.allQuestions.length + " so the Next button should not display as there are no more questions after this one");
+
 		//...remove Next button
 		myForm.removeChild(nextButton);
 
@@ -209,16 +204,14 @@ var quiz = {
 		myForm.appendChild(scoresButton);
 
 		EventUtil.addHandler(scoresButton, 'click', function () {
+			quiz.storeAnswer();
 			quiz.showTotalScore();
 		});
 	}
 },
 
 	showTotalScore: function() {
-		//get the answer for the final question and store in array
-		// quiz.storeAnswer();
-
-		//Hide all text on page
+	//Hide all text on page
 		quizIntro.innerHTML = "";
 		quizQuestion.innerHTML = "";
 		quizChoices.innerHTML = "";
