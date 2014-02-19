@@ -41,6 +41,7 @@ var quizScore = document.getElementById("quizScore");
 
 var selectedChoice;
 var selectedChoicesArray = [];
+var correctAnswerArray = [];
 var currentQuestion = 0;
 var correctAnswer = 0;
 var i;
@@ -125,6 +126,7 @@ var quiz = {
 		currentQuestion++;
 
 		console.log("currentQuestion is " + currentQuestion + " and quiz.length is " + quiz.allQuestions.length);
+		
 		//display the current question
 		quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
 
@@ -138,9 +140,35 @@ var quiz = {
 		quiz.showChoices();
 
 		//checks if current question is the last question and if it is, remove the Next button and show the Scores button
-		quiz.finishQuiz();
+		if (currentQuestion === (quiz.allQuestions.length - 1)) {
+			quiz.finishQuiz();
+		}
 	},
 
+	finishQuiz: function() {
+		console.log("currentQuestion array item is " + currentQuestion + " and quiz.allQuestions array length is " + quiz.allQuestions.length + " so the Next button should not display as there are no more questions after this one");
+
+		quiz.storeAnswer();
+
+		//...remove Next button
+		myForm.removeChild(nextButton);
+
+		// //...and create Scores button
+		var scoresButton = document.createElement("input");
+		scoresButton.type = "button";
+		scoresButton.id = "scoresButton";
+		scoresButton.value = 'Finish and show scores';
+		myForm.appendChild(scoresButton);
+
+		EventUtil.addHandler(scoresButton, 'click', function () {
+			console.log("SCORES BUTTON CLICKED");
+			console.log(correctAnswer);
+			// quiz.storeAnswer();
+			correctAnswer+=1000;
+			console.log(correctAnswer);
+			quiz.showTotalScore();
+		});
+	},
 
 	showChoices: function() {
 		//iterate through array, and if current question is within array length...
@@ -156,8 +184,8 @@ var quiz = {
 	},
 
 	storeAnswer: function() {
+		console.log("STORE ANSWER HAS HAPPENED");
 		var radioButtonArray = [];
-		var select = '';
 
 		for (i = 0; i < quiz.allQuestions[currentQuestion].choices.length; i++) {
 			radioButtonArray[i] = document.getElementById('rb' + i);
@@ -170,49 +198,19 @@ var quiz = {
 				console.log("selectedChoicesArray is now " + selectedChoicesArray);
 			}
 		}
-		// quiz.checkAnswer();
+
 		if (selectedChoice === quiz.allQuestions[currentQuestion - 1].correctAnswer) {
 			correctAnswer++;
+			correctAnswerArray.push(selectedChoice);
 			console.log("current score has increased! It is now ", correctAnswer);
 		} else {
 			console.log("current score is ", correctAnswer)
 		}
 	},
 
-	// checkAnswer: function() {
-	// 	console.log("QUIZ.CHECKANSWER!!!!!!!!")
-	// 	if (selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer) {
-	// 		correctAnswer++;
-	// 		console.log("current score has increased! It is now ", correctAnswer);
-	// 	} else {
-	// 		console.log("current score is ", correctAnswer)
-	// 	}
-	// },
-
-	finishQuiz: function() {
-	if (currentQuestion === quiz.allQuestions.length - 1) {
-		console.log("currentQuestion array item is " + currentQuestion + " and quiz.allQuestions array length is " + quiz.allQuestions.length + " so the Next button should not display as there are no more questions after this one");
-
-		//...remove Next button
-		myForm.removeChild(nextButton);
-
-		//...and create Scores button
-		var scoresButton = document.createElement("input");
-		scoresButton.type = "button";
-		scoresButton.id = "scoresButton";
-		scoresButton.value = 'Show scores';
-		myForm.appendChild(scoresButton);
-
-		EventUtil.addHandler(scoresButton, 'click', function () {
-			quiz.storeAnswer();
-			quiz.showTotalScore();
-		});
-	}
-},
-
 	showTotalScore: function() {
 	//Hide all text on page
-		quizIntro.innerHTML = "";
+		quizIntro.innerHTML = "you answered " + correctAnswerArray.length + " questions correctly";
 		quizQuestion.innerHTML = "";
 		quizChoices.innerHTML = "";
 
