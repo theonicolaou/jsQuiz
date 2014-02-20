@@ -169,7 +169,8 @@ var quiz = {
 				selectedChoice = radioButtonArray[i];
 				selectedChoicesArray.push(selectedChoice);
 				console.log('you have selected: - ', selectedChoice);
-				console.log("selectedChoicesArray is now " + selectedChoicesArray);
+				// console.log("selectedChoice.value is " + selectedChoice);
+				// console.log("selectedChoicesArray is now " + selectedChoicesArray);
 			}
 		}
 		quiz.updateScore();
@@ -177,6 +178,7 @@ var quiz = {
 
 	updateScore: function() {
 		if (selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer) {
+			console.log("selectedChoice.value is " + selectedChoice.value)
 			correctAnswer++;
 			correctAnswerArray.push(selectedChoice);
 			console.log("current score has INCREASED! It is now ", correctAnswer);
@@ -207,8 +209,9 @@ var quiz = {
 
 	showTotalScore: function() {
 		console.log("SHOW TOTAL SCORE HAS HAPPENED");
-
 		quiz.updateScore();
+		console.log("selectedChoice.value is " + selectedChoice.value);
+		console.log("prev question is " + quiz.allQuestions[currentQuestion].correctAnswer);
 
 		//Hide all text on page
 		quizIntro.innerHTML = "";
