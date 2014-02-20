@@ -41,12 +41,11 @@ var quizScore = document.getElementById("quizScore");
 
 var selectedChoice;
 var selectedChoicesArray = [];
-var correctAnswerArray = [];
 var currentQuestion = 0;
 var correctAnswer = 0;
 var score = 0;
+var percentageScore;
 var i;
-var j;
 
 var quiz = {
 	allQuestions: [
@@ -222,7 +221,10 @@ var quiz = {
 		myForm.removeChild(scoresButton);
 
 		//Display total score
-		quizScore.innerHTML = "Your score is: ....." + score;
+		quizIntro.innerHTML = "You got " + score + " out of " + (quiz.allQuestions.length) + " correct";
+		//convert total score into percentage
+		percentageScore = (score/5 * 100);
+		quizScore.innerHTML = "Your score is: " + percentageScore + "%";
 	},
 };
 
