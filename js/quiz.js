@@ -50,34 +50,59 @@ var i;
 var quiz = {
 	allQuestions: [
 		{
-			question: "question 1",
-			choices: ["choice 1.1", "choice 1.2", "choice 1.3"],
-			correctAnswer: "choice 1.1"
+			question: "Question 1: What is the capital of Australia?",
+			choices: ["Sydney", "Canberra", "Melbourne"],
+			correctAnswer: "Canberra"
 		},
 		{
-			question: "question 2",
-			choices: ["choice 2.1", "choice 2.2", "choice 2.3"],
-			correctAnswer: "choice 2.2"
+			question: "Question 2: What is the smallest country in the world?",
+			choices: ["Luxembourg", "Vatican City", "Monaco"],
+			correctAnswer: "Vatican City"
 		},
 		{
-			question: "question 3",
-			choices: ["choice 3.1", "choice 3.2", "choice 3.3"],
-			correctAnswer: "choice 3.1"
+			question: "Question 3: What is the national currency of Egypt?",
+			choices: ["Pound", "Euro", "Dollar"],
+			correctAnswer: "Pound"
 		},
 		{
-			question: "question 4",
-			choices: ["choice 4.1", "choice 4.2", "choice 4.3"],
-			correctAnswer: "choice 4.3"
+			question: "Question 4: How many countries make up Great Britain?",
+			choices: ["Three", "Four", "Five"],
+			correctAnswer: "Three"
 		},
 		{
-			question: "question 5",
-			choices: ["choice 5.1", "choice 5.2", "choice 5.3"],
-			correctAnswer: "choice 5.2"
+			question: "Question 5: How many miles, as the crow flies, is it from John O' Groats to Land's End?",
+			choices: ["603 miles", "703 miles", "803 miles"],
+			correctAnswer: "603 miles"
+		},
+		{
+			question: "Question 6: What is the largest island in the world?",
+			choices: ["Greenland", "Australia", "Iceland"],
+			correctAnswer: "Greenland"
+		},
+		{
+			question: "Question 7: How many countries does Mexico border?",
+			choices: ["Two", "Three", "Four"],
+			correctAnswer: "Three"
+		},
+		{
+			question: "Question 8: Which African country has the Shilling as its currency?",
+			choices: ["Morocco", "Algeria", "Kenya"],
+			correctAnswer: "Kenya"
+		},
+		{
+			question: "Question 9: What is the world's third largest sea?",
+			choices: ["Mediterranean", "Pacific", "Atlantic"],
+			correctAnswer: "Mediterranean"
+		},
+		{
+			question: "Question 10: Which country has the highest waterfall?",
+			choices: ["Venezuela", "South Africa", "Bolivia"],
+			correctAnswer: "Venezuela"
 		},
 	],
 
 	startQuiz: function() {
-		quizIntro.innerHTML = "Welcome to the quiz. There are " + quiz.allQuestions.length + " questions in the quiz";
+		quizIntro.innerHTML = "Welcome to the country quiz. There are " + quiz.allQuestions.length + " questions in the quiz";
 
 		//create Start button
 		var startButton = document.createElement("input");
@@ -241,7 +266,7 @@ showNextQuestion: function() {
 		//Display total score
 		quizIntro.innerHTML = "You got " + score + " out of " + (quiz.allQuestions.length) + " correct";
 		//convert total score into percentage
-		percentageScore = (score/5 * 100);
+		percentageScore = ((score/quiz.allQuestions.length) * 100);
 		quizScore.innerHTML = "Your score is: " + percentageScore + "%";
 	},
 };
