@@ -133,8 +133,6 @@ var quiz = {
 			//store selected answers in array
 			quiz.storeAnswer();
 
-			// quiz.updateScore();
-
 			//remove previous answer choices
 			quizChoices.innerHTML = "";
 
@@ -193,21 +191,21 @@ var quiz = {
 				selectedChoicesArray.push(selectedChoice.value);
 				console.log('you have selected: - ', selectedChoice);
 				console.log("selectedChoicesArray is now " + selectedChoicesArray);
+				console.log("selectedChoice.checked is " + radioButtonArray[i].checked);
+				quiz.updateScore();
+			} else {
+				console.log("nothing selected, no change to score");
 			}
 		}
-		quiz.updateScore();
 	},
 
 	updateScore: function() {
-		// score++;
-		// console.log("score is currently " + score);
-
-		if ( (selectedChoice.value === quiz.allQuestions[quiz.allQuestions.length - 1].correctAnswer) || (selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer)) {
+		if ((selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer) || (selectedChoice.value === quiz.allQuestions[quiz.allQuestions.length - 1].correctAnswer)) {
 			console.log("something got selected");
 			score++;
 			console.log("score is currently " + score);
 		} else {
-			console.log("nothing got selected");
+			console.log("wrong answer selected");
 			console.log("score is still " + score);
 		}
 	},
