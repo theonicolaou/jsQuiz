@@ -44,6 +44,7 @@ var selectedChoicesArray = [];
 var correctAnswerArray = [];
 var currentQuestion = 0;
 var correctAnswer = 0;
+var score = 0;
 var i;
 var j;
 
@@ -92,9 +93,9 @@ var quiz = {
 	},
 
 	showFirstQuestion: function() {
-		//if the current question is less than the length value of the allQuestions array
-		if (currentQuestion < quiz.allQuestions.length) {
-			console.log("currentQuestion is " + currentQuestion + " and quiz.length is " + quiz.allQuestions.length);
+	if (currentQuestion < (quiz.allQuestions.length - 1)) {
+		console.log("currentQuestion is " + currentQuestion + " and our maximum is " + (quiz.allQuestions.length - 1) + " (quiz.allQuestions.length - 1)");
+
 			//create Next button
 			var nextButton = document.createElement("input");
 			nextButton.type = "button";
@@ -107,14 +108,13 @@ var quiz = {
 
 			//display the current question
 			quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
-			// console.log("currentQuestion is " + currentQuestion + " and quiz.length is " + quiz.allQuestions.length);
 
 			//remove previous answer choices
-			quizChoices.innerHTML = "";
+			// quizChoices.innerHTML = "";
 
 			//display answer choices for question
 			quiz.showChoices();
-			
+
 			EventUtil.addHandler(nextButton, 'click', function () {
 				quiz.showNextQuestion();
 			});
@@ -122,27 +122,29 @@ var quiz = {
 	},
 
 	showNextQuestion: function() {
-		if (currentQuestion < quiz.allQuestions.length) {
-		//iterate to the next question in allQuestions array
-		currentQuestion++;
+		if (currentQuestion < (quiz.allQuestions.length - 1)) {
+			//iterate to the next question in allQuestions array
+			currentQuestion++;
+			console.log("currentQuestion is " + currentQuestion);
 
-		console.log("currentQuestion is " + currentQuestion + " and quiz.length is " + quiz.allQuestions.length);
-		
-		//display the current question
-		quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
+			//display the current question
+			quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
 
-		//store selected answers in array
-		quiz.storeAnswer();
+			//store selected answers in array
+			quiz.storeAnswer();
 
-		//remove previous answer choices
-		quizChoices.innerHTML = "";
+			// quiz.updateScore();
 
-		//display answer choices for question
+			//remove previous answer choices
+			quizChoices.innerHTML = "";
+
+			//display answer choices for question
 			quiz.showChoices();
-		}
-		//checks if current question is the last question and if it is, remove the Next button and show the Scores button
-		if (currentQuestion === (quiz.allQuestions.length - 1)) {
-			quiz.finishQuiz();
+
+			//checks if current question is the last question and if it is, remove the Next button and show the Scores button
+			if (currentQuestion === (quiz.allQuestions.length - 1)) {
+				quiz.finishQuiz();
+			}
 		}
 	},
 
@@ -156,34 +158,6 @@ var quiz = {
 			for (i = 0; i < quiz.allQuestions[currentQuestion].choices.length; i++) {
 				quizChoices.innerHTML += "<li><input type=\"radio\" name=\"choice\" id=\"rb" + i + "\" value=\"" + quiz.allQuestions[currentQuestion].choices[i] + "\">" + quiz.allQuestions[currentQuestion].choices[i] + "</li>";
 			}
-		}
-	},
-
-	storeAnswer: function() {
-		console.log("STORE ANSWER HAS HAPPENED");
-		var radioButtonArray = [];
-
-		for (i = 0; i < quiz.allQuestions[currentQuestion].choices.length; i++) {
-			radioButtonArray[i] = document.getElementById('rb' + i);
-			if (radioButtonArray[i].checked) {
-				selectedChoice = radioButtonArray[i];
-				selectedChoicesArray.push(selectedChoice);
-				console.log('you have selected: - ', selectedChoice);
-				// console.log("selectedChoice.value is " + selectedChoice);
-				// console.log("selectedChoicesArray is now " + selectedChoicesArray);
-			}
-		}
-		quiz.updateScore();
-	},
-
-	updateScore: function() {
-		if (selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer) {
-			console.log("selectedChoice.value is " + selectedChoice.value)
-			correctAnswer++;
-			correctAnswerArray.push(selectedChoice);
-			console.log("current score has INCREASED! It is now ", correctAnswer);
-		} else {
-			console.log("Current score HAS NOT changed. It is still ", correctAnswer)
 		}
 	},
 
@@ -203,15 +177,43 @@ var quiz = {
 		EventUtil.addHandler(scoresButton, 'click', function () {
 			console.clear();
 			console.log("SCORES BUTTON CLICKED");
+			quiz.storeAnswer();
 			quiz.showTotalScore();
 		});
 	},
 
-	showTotalScore: function() {
-		console.log("SHOW TOTAL SCORE HAS HAPPENED");
+	storeAnswer: function() {
+		console.log("STORE ANSWER HAS HAPPENED");
+		var radioButtonArray = [];
+
+		for (i = 0; i < quiz.allQuestions[currentQuestion].choices.length; i++) {
+			radioButtonArray[i] = document.getElementById('rb' + i);
+			if (radioButtonArray[i].checked) {
+				selectedChoice = radioButtonArray[i];
+				selectedChoicesArray.push(selectedChoice.value);
+				console.log('you have selected: - ', selectedChoice);
+				console.log("selectedChoicesArray is now " + selectedChoicesArray);
+			}
+		}
 		quiz.updateScore();
-		console.log("selectedChoice.value is " + selectedChoice.value);
-		console.log("prev question is " + quiz.allQuestions[currentQuestion].correctAnswer);
+	},
+
+	updateScore: function() {
+		// score++;
+		// console.log("score is currently " + score);
+
+		if ( (selectedChoice.value === quiz.allQuestions[quiz.allQuestions.length - 1].correctAnswer) || (selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer)) {
+			console.log("something got selected");
+			score++;
+			console.log("score is currently " + score);
+		} else {
+			console.log("nothing got selected");
+			console.log("score is still " + score);
+		}
+	},
+
+	showTotalScore: function() {
+		console.log("hide questions, hide buttons, show total score");
 
 		//Hide all text on page
 		quizIntro.innerHTML = "";
@@ -222,7 +224,7 @@ var quiz = {
 		myForm.removeChild(scoresButton);
 
 		//Display total score
-		quizScore.innerHTML = "Your score is: ....." + correctAnswer;
+		quizScore.innerHTML = "Your score is: ....." + score;
 	},
 };
 
