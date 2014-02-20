@@ -44,7 +44,7 @@ var selectedChoicesArray = [];
 var currentQuestion = 0;
 var correctAnswer = 0;
 var score = 0;
-var percentageScore;
+var percentageScore = 0;
 var i;
 
 var quiz = {
@@ -263,11 +263,31 @@ showNextQuestion: function() {
 		//Remove Scores button
 		myForm.removeChild(scoresButton);
 
-		//Display total score
-		quizIntro.innerHTML = "You got " + score + " out of " + (quiz.allQuestions.length) + " correct";
+		// quizIntro.innerHTML = "You got " + score + " out of " + (quiz.allQuestions.length) + " correct";
+
 		//convert total score into percentage
 		percentageScore = ((score/quiz.allQuestions.length) * 100);
-		quizScore.innerHTML = "Your score is: " + percentageScore + "%";
+
+		if (percentageScore >= 85) {
+			console.log(percentageScore);
+				quizScore.innerHTML = "You are a genius. Your score is: " + percentageScore + "%";
+			} else if (percentageScore >= 70 && percentageScore < 85) {
+				console.log(percentageScore);
+				quizScore.innerHTML = "Pretty good! Your score is: " + percentageScore + "%";
+			} else if (percentageScore >= 50 && percentageScore < 70) {
+				console.log(percentageScore);
+				quizScore.innerHTML = "Not bad. Your score is: " + percentageScore + "%";
+			} else if (score > 20 && percentageScore < 50) {
+				console.log(percentageScore);
+				quizScore.innerHTML = "You are better than rubbish. Your score is: " + percentageScore + "%";
+			} else {
+				console.log(percentageScore);
+				quizScore.innerHTML = "You are rubbish. Your score is: " + percentageScore + "%";
+			}
+
+		//Display total score
+		// quizIntro.innerHTML = "You got " + score + " out of " + (quiz.allQuestions.length) + " correct";
+		// quizScore.innerHTML = "Your score is: " + percentageScore + "%";
 	},
 };
 
