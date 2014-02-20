@@ -4,8 +4,8 @@
 var EventUtil = {
 
 //Both methods check for existence of DOM Level 2 method, then for IE method, then DOM Level 0 method as last resort.
-	addHandler: function(element, type, handler) {
-		if (element.addEventListener) {
+addHandler: function(element, type, handler) {
+	if (element.addEventListener) {
 			//if DOM Level 2 method exists, it is used. False indicates bubbling phase
 			element.addEventListener(type, handler, false);
 		} else if (element.attachEvent) {
@@ -33,9 +33,9 @@ var EventUtil = {
 
 //Initialise element ID's
 var wrapper = document.getElementById("wrapper");
+var myForm = document.getElementById("myForm");
 var quizIntro = document.getElementById("quizIntro");
 var quizQuestion = document.getElementById("quizQuestion");
-var myForm = document.getElementById("myForm");
 var quizChoices = document.getElementById("quizChoices");
 var quizScore = document.getElementById("quizScore");
 
@@ -86,44 +86,46 @@ var quiz = {
 		startButton.value = 	"Start quiz";
 		myForm.appendChild(startButton);
 
+		//if startButton is clicked, call showFirstQuestion() function
 		EventUtil.addHandler(startButton, 'click', function () {
 			quiz.showFirstQuestion();
 		});
 	},
 
 	showFirstQuestion: function() {
+	//if current question is not the final question...
 	if (currentQuestion < (quiz.allQuestions.length - 1)) {
 		console.log("currentQuestion is " + currentQuestion + " and our maximum is " + (quiz.allQuestions.length - 1) + " (quiz.allQuestions.length - 1)");
 
-			//create Next button
-			var nextButton = document.createElement("input");
-			nextButton.type = "button";
-			nextButton.id = "nextButton";
-			nextButton.value = 'Next question';
-			myForm.appendChild(nextButton);
+		//create Next button
+		var nextButton = document.createElement("input");
+		nextButton.type = "button";
+		nextButton.id = "nextButton";
+		nextButton.value = 'Next question';
+		myForm.appendChild(nextButton);
 
-			//remove Start button
-			myForm.removeChild(startButton);
+		//remove Start button
+		myForm.removeChild(startButton);
 
-			//display the current question
-			quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
+		//display the current question
+		quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
 
-			//remove previous answer choices
-			// quizChoices.innerHTML = "";
+		//display answer choices for current question
+		quiz.showChoices();
 
-			//display answer choices for question
-			quiz.showChoices();
+		//if nextButton is clicked, call showNextQuestion() function
+		EventUtil.addHandler(nextButton, 'click', function () {
+			quiz.showNextQuestion();
+		});
+	}
+},
 
-			EventUtil.addHandler(nextButton, 'click', function () {
-				quiz.showNextQuestion();
-			});
-		}
-	},
-
-	showNextQuestion: function() {
-		if (currentQuestion < (quiz.allQuestions.length - 1)) {
+showNextQuestion: function() {
+	//if current question is not the final question...
+	if (currentQuestion < (quiz.allQuestions.length - 1)) {
 			//iterate to the next question in allQuestions array
 			currentQuestion++;
+
 			console.log("currentQuestion is " + currentQuestion);
 
 			//display the current question
@@ -135,10 +137,10 @@ var quiz = {
 			//remove previous answer choices
 			quizChoices.innerHTML = "";
 
-			//display answer choices for question
+			//display answer choices for current question
 			quiz.showChoices();
 
-			//checks if current question is the last question and if it is, remove the Next button and show the Scores button
+			//checks if current question is the last question and if it is, call finishQuiz() function
 			if (currentQuestion === (quiz.allQuestions.length - 1)) {
 				quiz.finishQuiz();
 			}
@@ -159,9 +161,10 @@ var quiz = {
 	},
 
 	finishQuiz: function() {
+		//finishQuiz() is called if the current question is the last question in the quiz
 		console.log("the Next button should not display as there are no more questions after this one");
 
-		//...remove Next button
+		//remove Next button
 		myForm.removeChild(nextButton);
 
 		//...and create Scores button
@@ -171,6 +174,7 @@ var quiz = {
 		scoresButton.value = 'Finish and show scores';
 		myForm.appendChild(scoresButton);
 
+		//if scoresButton is clicked, call storeAnswer() and showTotalScore() functions
 		EventUtil.addHandler(scoresButton, 'click', function () {
 			console.clear();
 			console.log("SCORES BUTTON CLICKED");
@@ -180,36 +184,50 @@ var quiz = {
 	},
 
 	storeAnswer: function() {
+		//storeAnswer() is called when the nextButton is clicked or the scoresButton is clicked
 		console.log("STORE ANSWER HAS HAPPENED");
+
+		//create empty array to add generated radio buttons with ID's
 		var radioButtonArray = [];
 
+		//iterate through the answer choices of the current question...
 		for (i = 0; i < quiz.allQuestions[currentQuestion].choices.length; i++) {
 			radioButtonArray[i] = document.getElementById('rb' + i);
+
+			//...and if a radio button is selected...
 			if (radioButtonArray[i].checked) {
+				//...assign the ID of the radio button to selectedChoice...
 				selectedChoice = radioButtonArray[i];
+				//...and push the value of that radio button into selectedChoicesArray
 				selectedChoicesArray.push(selectedChoice.value);
 				console.log('you have selected: - ', selectedChoice);
 				console.log("selectedChoicesArray is now " + selectedChoicesArray);
 				console.log("selectedChoice.checked is " + radioButtonArray[i].checked);
+
+				//call updateScore() function
 				quiz.updateScore();
 			} else {
+				//if a radio button has not been selected when the Next button is clicked, do nothing
 				console.log("nothing selected, no change to score");
 			}
 		}
 	},
 
 	updateScore: function() {
+		//(after the nextButton has been clicked) if the value of the previously selected radio button matches the previous item in the correctAnswer array, OR the value of the previously selected radio button matches the correct answer of the final question in the quiz, increment the score
 		if ((selectedChoice.value === quiz.allQuestions[currentQuestion - 1].correctAnswer) || (selectedChoice.value === quiz.allQuestions[quiz.allQuestions.length - 1].correctAnswer)) {
 			console.log("something got selected");
 			score++;
 			console.log("score is currently " + score);
 		} else {
+			//otherwise if the values do not match, the wrong answer has been selected and the score remains the same
 			console.log("wrong answer selected");
 			console.log("score is still " + score);
 		}
 	},
 
 	showTotalScore: function() {
+		//showTotalScore() is called when the scoresButton is clicked
 		console.log("hide questions, hide buttons, show total score");
 
 		//Hide all text on page
