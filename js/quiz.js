@@ -175,7 +175,6 @@ showNextQuestion: function() {
 	showChoices: function() {
 		//iterate through array, and if current question is within array length...
 		if (currentQuestion < quiz.allQuestions.length) {
-			// console.log("your choices are " + quiz.allQuestions[currentQuestion].choices);
 			console.log("note: correct answer is " + quiz.allQuestions[currentQuestion].correctAnswer);
 
 			//...iterate through the choices for current question and display as list in HTML
@@ -263,31 +262,25 @@ showNextQuestion: function() {
 		//Remove Scores button
 		myForm.removeChild(scoresButton);
 
-		// quizIntro.innerHTML = "You got " + score + " out of " + (quiz.allQuestions.length) + " correct";
-
 		//convert total score into percentage
 		percentageScore = ((score/quiz.allQuestions.length) * 100);
 
-		if (percentageScore >= 85) {
+		if (percentageScore >= 20 && percentageScore < 40) {
 			console.log(percentageScore);
-				quizScore.innerHTML = "You are a genius. Your score is: " + percentageScore + "%";
-			} else if (percentageScore >= 70 && percentageScore < 85) {
-				console.log(percentageScore);
-				quizScore.innerHTML = "Pretty good! Your score is: " + percentageScore + "%";
-			} else if (percentageScore >= 50 && percentageScore < 70) {
-				console.log(percentageScore);
-				quizScore.innerHTML = "Not bad. Your score is: " + percentageScore + "%";
-			} else if (score > 20 && percentageScore < 50) {
-				console.log(percentageScore);
-				quizScore.innerHTML = "You are better than rubbish. Your score is: " + percentageScore + "%";
-			} else {
-				console.log(percentageScore);
-				quizScore.innerHTML = "You are rubbish. Your score is: " + percentageScore + "%";
-			}
-
-		//Display total score
-		// quizIntro.innerHTML = "You got " + score + " out of " + (quiz.allQuestions.length) + " correct";
-		// quizScore.innerHTML = "Your score is: " + percentageScore + "%";
+			quizScore.innerHTML = "You are marginally better than rubbish. Your score is: " + percentageScore + "%";
+		} else if (percentageScore >= 40 && percentageScore < 70) {
+			console.log(percentageScore);
+			quizScore.innerHTML = "Not bad. Your score is: " + percentageScore + "%";
+		} else if (percentageScore >= 70 && percentageScore < 100) {
+			console.log(percentageScore);
+			quizScore.innerHTML = "Pretty good! Your score is: " + percentageScore + "%";
+		} else if (percentageScore === 100) {
+			console.log(percentageScore);
+			quizScore.innerHTML = "You are a genius. Your score is: " + percentageScore + "%";
+		} else {
+			console.log(percentageScore);
+			quizScore.innerHTML = "I have no words for you. You are rubbish. Your score is: " + percentageScore + "%";
+		}
 	},
 };
 
