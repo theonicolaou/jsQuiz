@@ -255,9 +255,7 @@ showNextQuestion: function() {
 		console.log("hide questions, hide buttons, show total score");
 
 		//Hide all text on page
-		quizIntro.innerHTML = "";
-		quizQuestion.innerHTML = "";
-		quizChoices.innerHTML = "";
+		quiz.resetPageContent();
 
 		//Remove Scores button
 		myForm.removeChild(scoresButton);
@@ -281,6 +279,12 @@ showNextQuestion: function() {
 			console.log(percentageScore);
 			quizScore.innerHTML = "I have no words for you. You are rubbish. Your score is: " + percentageScore + "%";
 		}
+	},
+
+	resetPageContent: function() {
+		quizIntro.innerHTML = "";
+		quizQuestion.innerHTML = "";
+		quizChoices.innerHTML = "";
 	},
 };
 
