@@ -148,25 +148,25 @@ var quiz = {
 showNextQuestion: function() {
 	//if current question is not the final question...
 	if (currentQuestion < (quiz.allQuestions.length - 1)) {
-			//iterate to the next question in allQuestions array
-			currentQuestion++;
+		//iterate to the next question in allQuestions array
+		currentQuestion++;
 
-			console.log("currentQuestion is " + currentQuestion);
+		console.log("currentQuestion is " + currentQuestion);
 
-			//display the current question
-			quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
+		//display the current question
+		quizQuestion.innerHTML = quiz.allQuestions[currentQuestion].question;
 
-			//store selected answers in array
-			quiz.storeAnswer();
+		//store selected answers in array
+		quiz.storeAnswer();
 
-			//remove previous answer choices
-			quizChoices.innerHTML = "";
+		//remove previous answer choices
+		quizChoices.innerHTML = "";
 
-			//display answer choices for current question
-			quiz.showChoices();
+		//display answer choices for current question
+		quiz.showChoices();
 
-			//checks if current question is the last question and if it is, call finishQuiz() function
-			if (currentQuestion === (quiz.allQuestions.length - 1)) {
+		//checks if current question is the last question and if it is, call finishQuiz() function
+		if (currentQuestion === (quiz.allQuestions.length - 1)) {
 				quiz.finishQuiz();
 			}
 		}
