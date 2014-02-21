@@ -250,7 +250,7 @@ jsQuiz.prototype = {
 	},
 
 	updateScore: function() {
-		//(after the nextButton has been clicked) if the value of the previously selected radio button matches the previous item in the correctAnswer array, OR the value of the previously selected radio button matches the correct answer of the final question in the quiz, increment the score
+		//(after the nextButton has been clicked) if the value of the previously selected radio button matches the previous item in the correctAnswer array, OR the value of the previously selected radio button matches the correct answer of the final question in the quiz, increment the score.
 		if ((this.quizVariables.selectedChoice.value === this.quizVariables.allQuestions[this.quizVariables.currentQuestion - 1].correctAnswer) || (this.quizVariables.selectedChoice.value === this.quizVariables.allQuestions[this.quizVariables.allQuestions.length - 1].correctAnswer)) {
 			console.log("something got selected");
 			this.quizVariables.score++;
