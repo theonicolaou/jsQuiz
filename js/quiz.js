@@ -49,7 +49,6 @@ function jsQuiz() {
 		correctAnswer: 0,
 		score: 0,
 		percentageScore: 0,
-		i: "",
 		allQuestions: []
 	};
 }
@@ -136,8 +135,8 @@ jsQuiz.prototype = {
 			console.log("note: correct answer is " + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].correctAnswer);
 
 			//...iterate through the choices for current question and display as list in HTML
-			for (this.quizVariables.i = 0; this.quizVariables.i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; this.quizVariables.i++) {
-				this.domElements.quizChoices.innerHTML += "<li><input type=\"radio\" name=\"choice\" id=\"rb" + this.quizVariables.i + "\" value=\"" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[this.quizVariables.i] + "\">" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[this.quizVariables.i] + "</li>";
+			for (var i = 0; i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; i++) {
+				this.domElements.quizChoices.innerHTML += "<li><input type=\"radio\" name=\"choice\" id=\"rb" + i + "\" value=\"" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "\">" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "</li>";
 			}
 		}
 	},
@@ -172,20 +171,20 @@ jsQuiz.prototype = {
 
 		//create empty array to add generated radio buttons with ID's
 		var radioButtonArray = [];
-
+		var i;
 		//iterate through the answer choices of the current question...
-		for (this.quizVariables.i = 0; this.quizVariables.i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; this.quizVariables.i++) {
-			radioButtonArray[this.quizVariables.i] = document.getElementById('rb' + this.quizVariables.i);
+		for (i = 0; i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; i++) {
+			radioButtonArray[i] = document.getElementById('rb' + i);
 
 			//...and if a radio button is selected...
-			if (radioButtonArray[this.quizVariables.i].checked) {
+			if (radioButtonArray[i].checked) {
 				//...assign the ID of the radio button to selectedChoice...
-				this.quizVariables.selectedChoice = radioButtonArray[this.quizVariables.i];
+				this.quizVariables.selectedChoice = radioButtonArray[i];
 				//...and push the value of that radio button into selectedChoicesArray
 				this.quizVariables.selectedChoicesArray.push(this.quizVariables.selectedChoice.value);
 				console.log('you have selected: - ', this.quizVariables.selectedChoice);
 				console.log("selectedChoicesArray is now " + this.quizVariables.selectedChoicesArray);
-				console.log("selectedChoice.checked is " + radioButtonArray[this.quizVariables.i].checked);
+				console.log("selectedChoice.checked is " + radioButtonArray[i].checked);
 
 				//call updateScore() function
 				this.updateScore();
