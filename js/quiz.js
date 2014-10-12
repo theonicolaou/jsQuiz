@@ -37,6 +37,7 @@ function jsQuiz() {
 		wrapper: document.getElementById("wrapper"),
 		myForm: document.getElementById("myForm"),
 		quizIntro: document.getElementById("quizIntro"),
+		quizErrors: document.getElementById("quizErrors"),
 		quizQuestion: document.getElementById("quizQuestion"),
 		quizChoices: document.getElementById("quizChoices"),
 		quizScore: document.getElementById("quizScore"),
@@ -105,6 +106,18 @@ jsQuiz.prototype = {
 	showNextQuestion: function() {
 	//if current question is not the final question...
 		if (this.quizVariables.currentQuestion < (this.quizVariables.allQuestions.length - 1)) {
+
+		//create empty array to add generated radio buttons with ID's
+		var radioButtonArray = [];
+		var i;
+		//iterate through the answer choices of the current question...
+		for (i = 0; i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; i++) {
+			radioButtonArray[i] = document.getElementById('rb' + i);
+
+			//...and if a radio button is not selected...
+			if (!radioButtonArray[i].checked) {
+				this.showErrorMessage();
+			} else {
 			//iterate to the next question in allQuestions array
 			this.quizVariables.currentQuestion++;
 
@@ -121,7 +134,8 @@ jsQuiz.prototype = {
 
 			//display answer choices for current question
 			this.showChoices();
-
+			}
+		}
 			//checks if current question is the last question and if it is, call finishQuiz() function
 			if (this.quizVariables.currentQuestion === (this.quizVariables.allQuestions.length - 1)) {
 				this.finishQuiz();
@@ -244,7 +258,13 @@ jsQuiz.prototype = {
 			this.domElements.quizQuestion.innerHTML = "";
 			this.domElements.quizChoices.innerHTML = "";
 		},
-	};
+
+	showErrorMessage: function() {
+			this.domElements.quizErrors.className = "error";
+			this.domElements.quizErrors.insertBefore(this.domElements.quizQuestion, null);
+			this.domElements.quizErrors.innerHTML = "You cannot proceed until you make a selection";
+	},
+};
 
 window.onload = function() {
 	var quiz = new jsQuiz();
