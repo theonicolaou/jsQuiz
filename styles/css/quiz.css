@@ -11,3 +11,11 @@ ul li {
 	margin: 10px 0 10px 0;
 	font-weight: bold;
 }
+
+.error {
+	background-color: #FF0000;
+	padding: 10px;
+	color: #FFFFFF;
+	margin: 10px 0;
+	width: 30%;
+}
