@@ -256,10 +256,12 @@ jsQuiz.prototype = {
 			}
 		}
 
-		//...and if a radio button is not selected...
+		//...and if a radio button is not selected for the last question...
 		if (!ischecked) {
+			//show error message.
 			this.showErrorMessage();
 		} else {
+			//otherwise, hide the error message.
 			this.hideErrorMessage();
 
 			console.log("hide questions, hide buttons, show total score");
@@ -270,25 +272,8 @@ jsQuiz.prototype = {
 			//Remove Scores button
 			this.domElements.myForm.removeChild(scoresButton);
 
-			//convert total score into percentage
-			this.quizVariables.percentageScore = ((this.quizVariables.score/this.quizVariables.allQuestions.length) * 100);
-
-			if (this.quizVariables.percentageScore >= 20 && this.quizVariables.percentageScore < 40) {
-				console.log(this.quizVariables.percentageScore);
-				this.domElements.quizScore.innerHTML = "You are marginally better than rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
-			} else if (this.quizVariables.percentageScore >= 40 && this.quizVariables.percentageScore < 70) {
-				console.log(this.quizVariables.percentageScore);
-				this.domElements.quizScore.innerHTML = "Not bad. Your score is: " + this.quizVariables.percentageScore + "%";
-			} else if (this.quizVariables.percentageScore >= 70 && this.quizVariables.percentageScore < 100) {
-				console.log(this.quizVariables.percentageScore);
-				this.domElements.quizScore.innerHTML = "Pretty good! Your score is: " + this.quizVariables.percentageScore + "%";
-			} else if (this.quizVariables.percentageScore === 100) {
-				console.log(this.quizVariables.percentageScore);
-				this.domElements.quizScore.innerHTML = "You are a genius. Your score is: " + this.quizVariables.percentageScore + "%";
-			} else {
-				console.log(this.quizVariables.percentageScore);
-				this.domElements.quizScore.innerHTML = "I have no words for you. You are rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
-			}
+			//show final score percentage and feedback.
+			this.giveScoreFeedback();
 		}
 	},
 
@@ -297,6 +282,7 @@ jsQuiz.prototype = {
 		this.domElements.quizQuestion.innerHTML = "";
 		this.domElements.quizChoices.innerHTML = "";
 	},
+
 	showErrorMessage: function() {
 		var ischecked;
 		this.domElements.quizErrors.className = "error";
@@ -309,6 +295,28 @@ jsQuiz.prototype = {
 		console.log("a checkbox has been selected so ischecked is " + this.quizVariables.ischecked);
 		this.domElements.quizErrors.innerHTML = "";
 		this.domElements.quizErrors.className = "";
+	},
+
+	giveScoreFeedback: function() {
+		//convert total score into percentage
+		this.quizVariables.percentageScore = ((this.quizVariables.score/this.quizVariables.allQuestions.length) * 100);
+
+		if (this.quizVariables.percentageScore >= 20 && this.quizVariables.percentageScore < 40) {
+			console.log(this.quizVariables.percentageScore);
+			this.domElements.quizScore.innerHTML = "You are marginally better than rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
+		} else if (this.quizVariables.percentageScore >= 40 && this.quizVariables.percentageScore < 70) {
+			console.log(this.quizVariables.percentageScore);
+			this.domElements.quizScore.innerHTML = "Not bad. Your score is: " + this.quizVariables.percentageScore + "%";
+		} else if (this.quizVariables.percentageScore >= 70 && this.quizVariables.percentageScore < 100) {
+			console.log(this.quizVariables.percentageScore);
+			this.domElements.quizScore.innerHTML = "Pretty good! Your score is: " + this.quizVariables.percentageScore + "%";
+		} else if (this.quizVariables.percentageScore === 100) {
+			console.log(this.quizVariables.percentageScore);
+			this.domElements.quizScore.innerHTML = "You are a genius. Your score is: " + this.quizVariables.percentageScore + "%";
+		} else {
+			console.log(this.quizVariables.percentageScore);
+			this.domElements.quizScore.innerHTML = "I have no words for you. You are rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
+		}
 	},
 };
 
