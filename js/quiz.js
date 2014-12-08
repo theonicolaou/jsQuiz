@@ -105,6 +105,8 @@ jsQuiz.prototype = {
 	},
 
 	showNextQuestion: function() {
+		// var that = this;
+
 		//if current question is not the final question...
 		if (this.quizVariables.currentQuestion < (this.quizVariables.allQuestions.length - 1)) {
 
@@ -134,22 +136,34 @@ jsQuiz.prototype = {
 		} else {
 			this.hideErrorMessage();
 
-			//iterate to the next question in allQuestions array
-			this.quizVariables.currentQuestion++;
+			if (this.domElements.myForm.backButton) {
+			} else {
+				//create Back button
+				var backButton = document.createElement("input");
+				backButton.type = "button";
+				backButton.id = "backButton";
+				backButton.value = 'Back';
+				myForm.appendChild(backButton);
+			}
 
-			console.log("currentQuestion is " + this.quizVariables.currentQuestion);
+				this.clickBackButton();
 
-			//display the current question
-			this.domElements.quizQuestion.innerHTML = this.quizVariables.allQuestions[this.quizVariables.currentQuestion].question;
+				//iterate to the next question in allQuestions array
+				this.quizVariables.currentQuestion++;
 
-			//store selected answers in array
-			this.storeAnswer();
+				console.log("currentQuestion is " + this.quizVariables.currentQuestion);
 
-			//remove previous answer choices
-			this.domElements.quizChoices.innerHTML = "";
+				//display the current question
+				this.domElements.quizQuestion.innerHTML = this.quizVariables.allQuestions[this.quizVariables.currentQuestion].question;
 
-			//display answer choices for current question
-			this.showChoices();
+				//store selected answers in array
+				this.storeAnswer();
+
+				//remove previous answer choices
+				this.domElements.quizChoices.innerHTML = "";
+
+				//display answer choices for current question
+				this.showChoices();
 			}
 		}
 
@@ -317,6 +331,13 @@ jsQuiz.prototype = {
 			console.log(this.quizVariables.percentageScore);
 			this.domElements.quizScore.innerHTML = "I have no words for you. You are rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
 		}
+	},
+
+	clickBackButton: function() {
+		//if backButton is clicked...
+		EventUtil.addHandler(backButton, 'click', function () {
+			console.log("BACK BUTTON HAS BEEN CLICKED");
+		});
 	},
 };
 
