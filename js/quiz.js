@@ -130,13 +130,9 @@ jsQuiz.prototype = {
 
 		//...and if a radio button is not selected...
 		if (!ischecked) {
-			this.domElements.quizErrors.className = "error";
-			this.domElements.quizErrors.innerHTML = "You cannot proceed until you make a selection";
-			console.log("a checkbox has not been selected so ischecked is " + ischecked);
+			this.showErrorMessage();
 		} else {
-			console.log("a checkbox has been selected so ischecked is " + ischecked);
-			this.domElements.quizErrors.innerHTML = "";
-			this.domElements.quizErrors.className = "";
+			this.hideErrorMessage();
 
 			//iterate to the next question in allQuestions array
 			this.quizVariables.currentQuestion++;
@@ -245,8 +241,9 @@ jsQuiz.prototype = {
 	},
 
 	showTotalScore: function() {
+		//showTotalScore() is called when the scoresButton is clicked
 
-		//for all the radio buttons with name "choice"...
+		//assign the variable "radios" to all the radio buttons with name "choice"...
 		var radios = document.getElementsByName('choice');
 		//set ischecked to false initially.
 		var ischecked = false;
@@ -254,22 +251,17 @@ jsQuiz.prototype = {
 		//if a radio button in the array is type = radio button has been selected...
 		for (var i = 0; i < radios.length; i++) {
 			if (radios[i].type === 'radio' && radios[i].checked) {
-				//set ischecked to true
+				//set ischecked to true.
 				ischecked = true;
 			}
 		}
 
 		//...and if a radio button is not selected...
 		if (!ischecked) {
-			this.domElements.quizErrors.className = "error";
-			this.domElements.quizErrors.innerHTML = "You cannot proceed until you make a selection";
-			console.log("a checkbox has not been selected so ischecked is " + ischecked);
+			this.showErrorMessage();
 		} else {
-			console.log("a checkbox has been selected so ischecked is " + ischecked);
-			this.domElements.quizErrors.innerHTML = "";
-			this.domElements.quizErrors.className = "";
+			this.hideErrorMessage();
 
-			//showTotalScore() is called when the scoresButton is clicked
 			console.log("hide questions, hide buttons, show total score");
 
 			//Hide all text on page
@@ -304,6 +296,19 @@ jsQuiz.prototype = {
 		this.domElements.quizIntro.innerHTML = "";
 		this.domElements.quizQuestion.innerHTML = "";
 		this.domElements.quizChoices.innerHTML = "";
+	},
+	showErrorMessage: function() {
+		var ischecked;
+		this.domElements.quizErrors.className = "error";
+		this.domElements.quizErrors.innerHTML = "You cannot proceed until you make a selection";
+		console.log("a checkbox has not been selected so ischecked is " + this.quizVariables.ischecked);
+	},
+
+	hideErrorMessage: function() {
+		var ischecked;
+		console.log("a checkbox has been selected so ischecked is " + this.quizVariables.ischecked);
+		this.domElements.quizErrors.innerHTML = "";
+		this.domElements.quizErrors.className = "";
 	},
 };
 
