@@ -167,7 +167,7 @@ jsQuiz.prototype = {
 
 		//...iterate through the choices for current question and display as list in HTML
 		for (var i = 0; i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; i++) {
-			this.domElements.quizChoices.innerHTML += "<li><input type=\"radio\" name=\"choice\" id=\"rb" + i + "\" value=\"" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "\">" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "</li>";
+			this.domElements.quizChoices.innerHTML += "<li><input type=\"radio\" name=\"choice\" id=\"rb" + i + "\" value=\"" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "\">" + "<label for=\"rb" + i + "\" \>" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "</label>" + "</li>";
 			}
 		}
 	},
