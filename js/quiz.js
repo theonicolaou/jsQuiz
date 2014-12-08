@@ -254,15 +254,29 @@ jsQuiz.prototype = {
 	},
 
 	resetPageContent: function() {
-			this.domElements.quizIntro.innerHTML = "";
-			this.domElements.quizQuestion.innerHTML = "";
-			this.domElements.quizChoices.innerHTML = "";
-		},
+		this.domElements.quizIntro.innerHTML = "";
+		this.domElements.quizQuestion.innerHTML = "";
+		this.domElements.quizChoices.innerHTML = "";
+	},
 
 	showErrorMessage: function() {
-			this.domElements.quizErrors.className = "error";
-			this.domElements.quizErrors.insertBefore(this.domElements.quizQuestion, null);
+		var radios = document.getElementsByName('choice');
+		var ischecked = false;
+		for (var i = 0; i < radios.length; i++) {
+			if (radios[i].type === 'radio' && radios[i].checked) {
+				ischecked = true;
+				// break;
+			}
+		}
+
+	if(!ischecked) {
+		this.domElements.quizErrors.className = "error";
 			this.domElements.quizErrors.innerHTML = "You cannot proceed until you make a selection";
+			console.log("a checkbox has not been selected so ischecked is " + ischecked);
+		} else {
+			console.log("a checkbox has been selected so ischecked is " + ischecked);
+			this.domElements.quizErrors.innerHTML = "something was selected";
+		}
 	},
 };
 
