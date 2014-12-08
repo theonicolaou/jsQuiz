@@ -37,6 +37,7 @@ function jsQuiz() {
 		wrapper: document.getElementById("wrapper"),
 		myForm: document.getElementById("myForm"),
 		quizIntro: document.getElementById("quizIntro"),
+		quizErrors: document.getElementById("quizErrors"),
 		quizQuestion: document.getElementById("quizQuestion"),
 		quizChoices: document.getElementById("quizChoices"),
 		quizScore: document.getElementById("quizScore"),
@@ -75,7 +76,8 @@ jsQuiz.prototype = {
 
 	showFirstQuestion: function() {
 		var that = this;
-	//if current question is not the final question...
+
+		//if current question is not the final question...
 		if (this.quizVariables.currentQuestion < (this.quizVariables.allQuestions.length - 1)) {
 			console.log("currentQuestion is " + this.quizVariables.currentQuestion + " and our maximum is " + (this.quizVariables.allQuestions.length - 1) + " (this.quizVariables.allQuestions.length - 1)");
 
@@ -103,8 +105,35 @@ jsQuiz.prototype = {
 	},
 
 	showNextQuestion: function() {
-	//if current question is not the final question...
+		//if current question is not the final question...
 		if (this.quizVariables.currentQuestion < (this.quizVariables.allQuestions.length - 1)) {
+
+		//create empty array to add generated radio buttons with ID's
+		var radioButtonArray = [];
+		var i;
+		//iterate through the answer choices of the current question...
+		for (i = 0; i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; i++) {
+			radioButtonArray[i] = document.getElementById('rb' + i);
+
+		//for all the radio buttons with name "choice"...
+		var radios = document.getElementsByName('choice');
+		//set ischecked to false initially.
+		var ischecked = false;
+
+		//if a radio button in the array is type = radio button has been selected...
+		for (var i = 0; i < radios.length; i++) {
+			if (radios[i].type === 'radio' && radios[i].checked) {
+				//set ischecked to true
+				ischecked = true;
+			}
+		}
+
+		//...and if a radio button is not selected...
+		if (!ischecked) {
+			this.showErrorMessage();
+		} else {
+			this.hideErrorMessage();
+
 			//iterate to the next question in allQuestions array
 			this.quizVariables.currentQuestion++;
 
@@ -121,9 +150,11 @@ jsQuiz.prototype = {
 
 			//display answer choices for current question
 			this.showChoices();
+			}
+		}
 
-			//checks if current question is the last question and if it is, call finishQuiz() function
-			if (this.quizVariables.currentQuestion === (this.quizVariables.allQuestions.length - 1)) {
+		//checks if current question is the last question and if it is, call finishQuiz() function
+		if (this.quizVariables.currentQuestion === (this.quizVariables.allQuestions.length - 1)) {
 				this.finishQuiz();
 			}
 		}
@@ -134,9 +165,9 @@ jsQuiz.prototype = {
 		if (this.quizVariables.currentQuestion < this.quizVariables.allQuestions.length) {
 			console.log("note: correct answer is " + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].correctAnswer);
 
-			//...iterate through the choices for current question and display as list in HTML
-			for (var i = 0; i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; i++) {
-				this.domElements.quizChoices.innerHTML += "<li><input type=\"radio\" name=\"choice\" id=\"rb" + i + "\" value=\"" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "\">" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "</li>";
+		//...iterate through the choices for current question and display as list in HTML
+		for (var i = 0; i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; i++) {
+			this.domElements.quizChoices.innerHTML += "<li><input type=\"radio\" name=\"choice\" id=\"rb" + i + "\" value=\"" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "\">" + this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices[i] + "</li>";
 			}
 		}
 	},
@@ -172,6 +203,7 @@ jsQuiz.prototype = {
 		//create empty array to add generated radio buttons with ID's
 		var radioButtonArray = [];
 		var i;
+
 		//iterate through the answer choices of the current question...
 		for (i = 0; i < this.quizVariables.allQuestions[this.quizVariables.currentQuestion].choices.length; i++) {
 			radioButtonArray[i] = document.getElementById('rb' + i);
@@ -210,41 +242,75 @@ jsQuiz.prototype = {
 
 	showTotalScore: function() {
 		//showTotalScore() is called when the scoresButton is clicked
-		console.log("hide questions, hide buttons, show total score");
 
-		//Hide all text on page
-		this.resetPageContent();
+		//assign the variable "radios" to all the radio buttons with name "choice"...
+		var radios = document.getElementsByName('choice');
+		//set ischecked to false initially.
+		var ischecked = false;
 
-		//Remove Scores button
-		this.domElements.myForm.removeChild(scoresButton);
+		//if a radio button in the array is type = radio button has been selected...
+		for (var i = 0; i < radios.length; i++) {
+			if (radios[i].type === 'radio' && radios[i].checked) {
+				//set ischecked to true.
+				ischecked = true;
+			}
+		}
 
-		//convert total score into percentage
-		this.quizVariables.percentageScore = ((this.quizVariables.score/this.quizVariables.allQuestions.length) * 100);
-
-		if (this.quizVariables.percentageScore >= 20 && this.quizVariables.percentageScore < 40) {
-			console.log(this.quizVariables.percentageScore);
-			this.domElements.quizScore.innerHTML = "You are marginally better than rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
-		} else if (this.quizVariables.percentageScore >= 40 && this.quizVariables.percentageScore < 70) {
-			console.log(this.quizVariables.percentageScore);
-			this.domElements.quizScore.innerHTML = "Not bad. Your score is: " + this.quizVariables.percentageScore + "%";
-		} else if (this.quizVariables.percentageScore >= 70 && this.quizVariables.percentageScore < 100) {
-			console.log(this.quizVariables.percentageScore);
-			this.domElements.quizScore.innerHTML = "Pretty good! Your score is: " + this.quizVariables.percentageScore + "%";
-		} else if (this.quizVariables.percentageScore === 100) {
-			console.log(this.quizVariables.percentageScore);
-			this.domElements.quizScore.innerHTML = "You are a genius. Your score is: " + this.quizVariables.percentageScore + "%";
+		//...and if a radio button is not selected...
+		if (!ischecked) {
+			this.showErrorMessage();
 		} else {
-			console.log(this.quizVariables.percentageScore);
-			this.domElements.quizScore.innerHTML = "I have no words for you. You are rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
+			this.hideErrorMessage();
+
+			console.log("hide questions, hide buttons, show total score");
+
+			//Hide all text on page
+			this.resetPageContent();
+
+			//Remove Scores button
+			this.domElements.myForm.removeChild(scoresButton);
+
+			//convert total score into percentage
+			this.quizVariables.percentageScore = ((this.quizVariables.score/this.quizVariables.allQuestions.length) * 100);
+
+			if (this.quizVariables.percentageScore >= 20 && this.quizVariables.percentageScore < 40) {
+				console.log(this.quizVariables.percentageScore);
+				this.domElements.quizScore.innerHTML = "You are marginally better than rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
+			} else if (this.quizVariables.percentageScore >= 40 && this.quizVariables.percentageScore < 70) {
+				console.log(this.quizVariables.percentageScore);
+				this.domElements.quizScore.innerHTML = "Not bad. Your score is: " + this.quizVariables.percentageScore + "%";
+			} else if (this.quizVariables.percentageScore >= 70 && this.quizVariables.percentageScore < 100) {
+				console.log(this.quizVariables.percentageScore);
+				this.domElements.quizScore.innerHTML = "Pretty good! Your score is: " + this.quizVariables.percentageScore + "%";
+			} else if (this.quizVariables.percentageScore === 100) {
+				console.log(this.quizVariables.percentageScore);
+				this.domElements.quizScore.innerHTML = "You are a genius. Your score is: " + this.quizVariables.percentageScore + "%";
+			} else {
+				console.log(this.quizVariables.percentageScore);
+				this.domElements.quizScore.innerHTML = "I have no words for you. You are rubbish. Your score is: " + this.quizVariables.percentageScore + "%";
+			}
 		}
 	},
 
 	resetPageContent: function() {
-			this.domElements.quizIntro.innerHTML = "";
-			this.domElements.quizQuestion.innerHTML = "";
-			this.domElements.quizChoices.innerHTML = "";
-		},
-	};
+		this.domElements.quizIntro.innerHTML = "";
+		this.domElements.quizQuestion.innerHTML = "";
+		this.domElements.quizChoices.innerHTML = "";
+	},
+	showErrorMessage: function() {
+		var ischecked;
+		this.domElements.quizErrors.className = "error";
+		this.domElements.quizErrors.innerHTML = "You cannot proceed until you make a selection";
+		console.log("a checkbox has not been selected so ischecked is " + this.quizVariables.ischecked);
+	},
+
+	hideErrorMessage: function() {
+		var ischecked;
+		console.log("a checkbox has been selected so ischecked is " + this.quizVariables.ischecked);
+		this.domElements.quizErrors.innerHTML = "";
+		this.domElements.quizErrors.className = "";
+	},
+};
 
 window.onload = function() {
 	var quiz = new jsQuiz();
