@@ -50,7 +50,8 @@ function jsQuiz() {
 		correctAnswer: 0,
 		score: 0,
 		percentageScore: 0,
-		allQuestions: []
+		allQuestions: [],
+		ischecked: false
 	};
 }
 
@@ -118,18 +119,18 @@ jsQuiz.prototype = {
 		//for all the radio buttons with name "choice"...
 		var radios = document.getElementsByName('choice');
 		//set ischecked to false initially.
-		var ischecked = false;
+		this.quizVariables.ischecked = false;
 
 		//if a radio button in the array is type = radio button has been selected...
 		for (var i = 0; i < radios.length; i++) {
 			if (radios[i].type === 'radio' && radios[i].checked) {
 				//set ischecked to true
-				ischecked = true;
+				this.quizVariables.ischecked = true;
 			}
 		}
 
 		//...and if a radio button is not selected...
-		if (!ischecked) {
+		if (!this.quizVariables.ischecked) {
 			this.showErrorMessage();
 		} else {
 			this.hideErrorMessage();
@@ -246,18 +247,18 @@ jsQuiz.prototype = {
 		//assign the variable "radios" to all the radio buttons with name "choice"...
 		var radios = document.getElementsByName('choice');
 		//set ischecked to false initially.
-		var ischecked = false;
+		this.quizVariables.ischecked = false;
 
 		//if a radio button in the array is type = radio button has been selected...
 		for (var i = 0; i < radios.length; i++) {
 			if (radios[i].type === 'radio' && radios[i].checked) {
 				//set ischecked to true.
-				ischecked = true;
+				this.quizVariables.ischecked = true;
 			}
 		}
 
 		//...and if a radio button is not selected for the last question...
-		if (!ischecked) {
+		if (!this.quizVariables.ischecked) {
 			//show error message.
 			this.showErrorMessage();
 		} else {
@@ -284,14 +285,12 @@ jsQuiz.prototype = {
 	},
 
 	showErrorMessage: function() {
-		var ischecked;
 		this.domElements.quizErrors.className = "error";
 		this.domElements.quizErrors.innerHTML = "You cannot proceed until you make a selection";
 		console.log("a checkbox has not been selected so ischecked is " + this.quizVariables.ischecked);
 	},
 
 	hideErrorMessage: function() {
-		var ischecked;
 		console.log("a checkbox has been selected so ischecked is " + this.quizVariables.ischecked);
 		this.domElements.quizErrors.innerHTML = "";
 		this.domElements.quizErrors.className = "";
