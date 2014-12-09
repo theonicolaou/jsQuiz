@@ -340,22 +340,22 @@ jsQuiz.prototype = {
 	goBack: function() {
 		var that = this;
 		console.log("BACK BUTTON EVENT");
-			//iterate to the next question in allQuestions array
-			this.quizVariables.currentQuestion--;
+		//iterate to the next question in allQuestions array
+		this.quizVariables.currentQuestion--;
 
-			console.log("currentQuestion is " + this.quizVariables.currentQuestion);
+		console.log("currentQuestion is " + this.quizVariables.currentQuestion);
 
-			//display the current question
-			this.domElements.quizQuestion.innerHTML = this.quizVariables.allQuestions[this.quizVariables.currentQuestion].question;
+		//display the current question
+		this.domElements.quizQuestion.innerHTML = this.quizVariables.allQuestions[this.quizVariables.currentQuestion].question;
 
-			//store selected answers in array
-			this.storeAnswer();
+		//store selected answers in array
+		this.storeAnswer();
 
-			//remove previous answer choices
-			this.domElements.quizChoices.innerHTML = "";
+		//remove previous answer choices
+		this.domElements.quizChoices.innerHTML = "";
 
-			//display answer choices for current question
-			this.showChoices();
+		//display answer choices for current question
+		this.showChoices();
 	},
 };
 
