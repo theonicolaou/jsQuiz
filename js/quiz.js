@@ -349,7 +349,7 @@ jsQuiz.prototype = {
 		this.domElements.quizQuestion.innerHTML = this.quizVariables.allQuestions[this.quizVariables.currentQuestion].question;
 
 		//store selected answers in array
-		this.storeAnswer();
+		// this.storeAnswer();
 
 		//remove previous answer choices
 		this.domElements.quizChoices.innerHTML = "";
