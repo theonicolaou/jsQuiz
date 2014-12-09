@@ -71,6 +71,7 @@ jsQuiz.prototype = {
 		//if startButton is clicked, call showFirstQuestion() function
 		EventUtil.addHandler(startButton, 'click', function () {
 			that.showFirstQuestion();
+			that.showBackButton();
 		});
 	},
 
@@ -105,8 +106,6 @@ jsQuiz.prototype = {
 	},
 
 	showNextQuestion: function() {
-		// var that = this;
-
 		//if current question is not the final question...
 		if (this.quizVariables.currentQuestion < (this.quizVariables.allQuestions.length - 1)) {
 
@@ -131,22 +130,10 @@ jsQuiz.prototype = {
 		}
 
 		//...and if a radio button is not selected...
-		if (!ischecked) {
-			this.showErrorMessage();
-		} else {
-			this.hideErrorMessage();
-
-			if (this.domElements.myForm.backButton) {
+			if (!ischecked) {
+				this.showErrorMessage();
 			} else {
-				//create Back button
-				var backButton = document.createElement("input");
-				backButton.type = "button";
-				backButton.id = "backButton";
-				backButton.value = 'Back';
-				myForm.appendChild(backButton);
-			}
-
-				this.clickBackButton();
+				this.hideErrorMessage();
 
 				//iterate to the next question in allQuestions array
 				this.quizVariables.currentQuestion++;
@@ -333,11 +320,43 @@ jsQuiz.prototype = {
 		}
 	},
 
-	clickBackButton: function() {
-		//if backButton is clicked...
+	showBackButton: function() {
+		var that = this;
+		if (this.domElements.myForm.backButton) {
+			myForm.removeChild(backButton);
+		} else {
+			//create Back button
+			var backButton = document.createElement("input");
+			backButton.type = "button";
+			backButton.id = "backButton";
+			backButton.value = 'Back';
+			myForm.appendChild(backButton);
+		}
+
 		EventUtil.addHandler(backButton, 'click', function () {
-			console.log("BACK BUTTON HAS BEEN CLICKED");
+			that.goBack();
 		});
+	},
+
+	goBack: function() {
+		var that = this;
+		console.log("BACK BUTTON EVENT");
+			//iterate to the next question in allQuestions array
+			this.quizVariables.currentQuestion--;
+
+			console.log("currentQuestion is " + this.quizVariables.currentQuestion);
+
+			//display the current question
+			this.domElements.quizQuestion.innerHTML = this.quizVariables.allQuestions[this.quizVariables.currentQuestion].question;
+
+			//store selected answers in array
+			this.storeAnswer();
+
+			//remove previous answer choices
+			this.domElements.quizChoices.innerHTML = "";
+
+			//display answer choices for current question
+			this.showChoices();
 	},
 };
 
