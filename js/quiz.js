@@ -50,7 +50,8 @@ function jsQuiz() {
 		correctAnswer: 0,
 		score: 0,
 		percentageScore: 0,
-		allQuestions: []
+		allQuestions: [],
+		ischecked: false
 	};
 }
 
@@ -71,6 +72,7 @@ jsQuiz.prototype = {
 		//if startButton is clicked, call showFirstQuestion() function
 		EventUtil.addHandler(startButton, 'click', function () {
 			that.showFirstQuestion();
+			that.showBackButton();
 		});
 	},
 
@@ -105,8 +107,6 @@ jsQuiz.prototype = {
 	},
 
 	showNextQuestion: function() {
-		// var that = this;
-
 		//if current question is not the final question...
 		if (this.quizVariables.currentQuestion < (this.quizVariables.allQuestions.length - 1)) {
 
@@ -120,33 +120,21 @@ jsQuiz.prototype = {
 		//for all the radio buttons with name "choice"...
 		var radios = document.getElementsByName('choice');
 		//set ischecked to false initially.
-		var ischecked = false;
+		this.quizVariables.ischecked = false;
 
 		//if a radio button in the array is type = radio button has been selected...
 		for (var i = 0; i < radios.length; i++) {
 			if (radios[i].type === 'radio' && radios[i].checked) {
 				//set ischecked to true
-				ischecked = true;
+				this.quizVariables.ischecked = true;
 			}
 		}
 
 		//...and if a radio button is not selected...
-		if (!ischecked) {
+		if (!this.quizVariables.ischecked) {
 			this.showErrorMessage();
 		} else {
 			this.hideErrorMessage();
-
-			if (this.domElements.myForm.backButton) {
-			} else {
-				//create Back button
-				var backButton = document.createElement("input");
-				backButton.type = "button";
-				backButton.id = "backButton";
-				backButton.value = 'Back';
-				myForm.appendChild(backButton);
-			}
-
-				this.clickBackButton();
 
 				//iterate to the next question in allQuestions array
 				this.quizVariables.currentQuestion++;
@@ -260,18 +248,18 @@ jsQuiz.prototype = {
 		//assign the variable "radios" to all the radio buttons with name "choice"...
 		var radios = document.getElementsByName('choice');
 		//set ischecked to false initially.
-		var ischecked = false;
+		this.quizVariables.ischecked = false;
 
 		//if a radio button in the array is type = radio button has been selected...
 		for (var i = 0; i < radios.length; i++) {
 			if (radios[i].type === 'radio' && radios[i].checked) {
 				//set ischecked to true.
-				ischecked = true;
+				this.quizVariables.ischecked = true;
 			}
 		}
 
 		//...and if a radio button is not selected for the last question...
-		if (!ischecked) {
+		if (!this.quizVariables.ischecked) {
 			//show error message.
 			this.showErrorMessage();
 		} else {
@@ -298,14 +286,12 @@ jsQuiz.prototype = {
 	},
 
 	showErrorMessage: function() {
-		var ischecked;
 		this.domElements.quizErrors.className = "error";
 		this.domElements.quizErrors.innerHTML = "You cannot proceed until you make a selection";
 		console.log("a checkbox has not been selected so ischecked is " + this.quizVariables.ischecked);
 	},
 
 	hideErrorMessage: function() {
-		var ischecked;
 		console.log("a checkbox has been selected so ischecked is " + this.quizVariables.ischecked);
 		this.domElements.quizErrors.innerHTML = "";
 		this.domElements.quizErrors.className = "";
@@ -333,11 +319,40 @@ jsQuiz.prototype = {
 		}
 	},
 
-	clickBackButton: function() {
-		//if backButton is clicked...
+	showBackButton: function() {
+		var that = this;
+		if (this.domElements.myForm.backButton) {
+			myForm.removeChild(backButton);
+		} else {
+			//create Back button
+			var backButton = document.createElement("input");
+			backButton.type = "button";
+			backButton.id = "backButton";
+			backButton.value = 'Back';
+			myForm.appendChild(backButton);
+		}
+
 		EventUtil.addHandler(backButton, 'click', function () {
-			console.log("BACK BUTTON HAS BEEN CLICKED");
+			that.goBack();
 		});
+	},
+
+	goBack: function() {
+		var that = this;
+		console.log("BACK BUTTON EVENT");
+		//iterate to the next question in allQuestions array
+		this.quizVariables.currentQuestion--;
+
+		console.log("currentQuestion is " + this.quizVariables.currentQuestion);
+
+		//display the current question
+		this.domElements.quizQuestion.innerHTML = this.quizVariables.allQuestions[this.quizVariables.currentQuestion].question;
+
+		//remove previous answer choices
+		this.domElements.quizChoices.innerHTML = "";
+
+		//display answer choices for current question
+		this.showChoices();
 	},
 };
 
